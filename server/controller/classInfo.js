@@ -11,10 +11,7 @@ const send = require('koa-send');
 module.exports = {
     async add_class(ctx,next){
         let {classNum,classpassword,student,teacher,homework} = ctx.request.body;
-        console.log(`密码：`+classpassword);
-       
         classpassword = sha1(classpassword);
-        console.log(`密码：`+classpassword);
         
         // console.log(ctx.request.body);
         let res = await ClassList.find({classNum,teacher});
@@ -40,10 +37,10 @@ module.exports = {
     async join_class(ctx,next){
         let {username,classNum,classpassword} = ctx.request.body;
         
-        console.log(`密码：`+classpassword);
+      
 
         classpassword = sha1(classpassword);
-        console.log(`密码：`+classpassword);
+       
         
         let re = await User.update({username:username},{$set:{classNum:classNum}});
         let res = await User.find({username});

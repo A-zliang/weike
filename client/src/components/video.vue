@@ -29,10 +29,12 @@
                         <h3>留言区</h3>
                     </div>
                     <div class="comment">
-                        <div class="item">
-                            <span>张三</span> <span>2019-05-05</span>
-                            <p>这是张三的留言，这是张三的留言这是张三的留言这是张三的留言这这是张三的留言张三的留言这是张三的留言这是张三的留言</p>
+                        <div class="item" v-for="(item, index) in commentList" :key="index">
+                            <span>{{item.username}}</span> <span>{{item.create_time}}</span>
+                            <p>{{item.content}}</p>
+                            
                         </div>
+                        <p v-show="commentList.length == 0" style="text-align:center">暂时没有人评论</p>
                     </div>
                 </div>
               </el-col>
@@ -40,7 +42,7 @@
            <el-row class="bottom">
               <el-col :span="19"> 
                   <el-input
-                  class="textarea"
+                    class="textarea"
                     type="textarea"
                     placeholder="发表见解"
                     v-model="textarea"
@@ -50,7 +52,7 @@
                   </el-input>
               </el-col>
               <el-col :span="5">
-                <el-button class="btn"  type="primary">发表</el-button>
+                <el-button class="btn" @click="pushComment" type="primary">发表</el-button>
               </el-col>
            </el-row>
     </div>
@@ -62,6 +64,7 @@ export default {
       data() {
       return {
         textarea: '',
+        commentList:[],
         playerOptions: {
           // videojs options
           // muted: true,
@@ -79,6 +82,7 @@ export default {
     },
     created() {
      this.getSrc();
+     this.getVideoComment();
     },
     mounted() {
       console.log('this is current player instance object', this.player)
@@ -91,8 +95,90 @@ export default {
     methods: {
       getSrc(){
          this.playerOptions.sources[0].src ='http://localhost:3000/'+this.$route.query.filePath;
-         console.log(this.playerOptions.sources[0].src);
       },
+      async pushComment(){
+        let id = this.$route.query._id;
+        let username = this.$store.state.user.user_name;;
+        let info = {
+          videoId: id,
+          username,
+          content: this.textarea
+        }
+        let res = await this.$http.api_push_videoComment(info);
+        if(res.data.code == 200){
+          alert('发表成功');
+          this.textarea = '';
+          this.getVideoComment();
+        }else{
+          alert('发表失败');
+        }
+      },
+      async getVideoComment(){
+        this.commentList = [];
+        let id = this.$route.query._id;
+        let res = await this.$http.api_get_videoComment(id);
+        if(res.data.code == 200){
+          let comment = {
+            username:'',
+            content:'',
+            create_time:''
+          }
+          let len = res.data.res.length;
+          for(let i=0; i<res.data.res.length; i++){
+              comment.username = res.data.res[len-i-1].username;
+              comment.content = res.data.res[len-i-1].content;
+              comment.create_time = this.timeFormat(res.data.res[len-i-1].create_time);
+              this.commentList.push(comment);
+                comment = {
+                  username:'',
+                  content:'',
+                  create_time:''
+                }
+          }
+        }
+      },
+       timeFormat(data){    //对编辑页面中的时间格式化
+            let now = new Date(Number(data));
+            var year = now.getFullYear();
+            var month = now.getMonth();
+            if(month<10){
+                month = "0"+month
+            }
+            let date = now.getDate();
+             if(date<10){
+                date = "0"+date
+            }
+            let hour = now.getHours();
+             if(hour<10){
+                hour = "0"+hour
+            }
+            let minu = now.getMinutes();
+             if(minu<10){
+                minu = "0"+minu
+            }
+            let sec = now.getSeconds();
+             if(sec<10){
+                sec = "0"+sec
+            }
+           let create_time = `${year}-${month}-${date} ${hour}:${minu}:${sec}`;
+           return create_time;
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // listen event
       onPlayerPlay(player) {
         // console.log('player play!', player)
@@ -157,6 +243,7 @@ export default {
     width: 100%;
     height: 622px;
     background-color: #eee;
+    overflow: auto;
   }
    .comment .item{
      background-color: #fff;

@@ -88,11 +88,21 @@ const videoSchema = mongoose.Schema({
         default:Date.now
     }
 })
+const VcommentSchema = mongoose.Schema({
+    videoId:String,
+    content:String,
+    username:String,
+    create_time:{
+        type:String,
+        default:Date.now
+    }
+})
 exports.User = mongoose.model('User',userSchema);
 exports.Comment = mongoose.model('Comment',commentSchema);
 exports.ClassList = mongoose.model('ClassList',classSchema);
 exports.HomeWork = mongoose.model('HomeWork',homeworkSchema);
 exports.StuHomework = mongoose.model('StuHomework',stuHomeworkSchema);
 exports.Video = mongoose.model('Video',videoSchema);
+exports.Vcomment = mongoose.model('Vcomment',VcommentSchema);
 
 

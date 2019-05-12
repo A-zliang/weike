@@ -4,7 +4,7 @@ const comment = require('../controller/comment.js')
 const classInfo = require('../controller/classInfo.js')
 const adminUser = require('../controller/adminUser.js')
 const adminFile = require('../controller/adminFile.js')
-const home = require('../controller/home.js')
+const video = require('../controller/video.js')
 
 
 
@@ -18,39 +18,41 @@ router.get('/string', async (ctx, next) => {
   ctx.body = 'koa2 string'
 })
 //用户登录注册
-router.post('/api/user/login',user.login)
-router.post('/api/user/register',user.register)
-router.post('/api/emailcode',user.emailCode)
-router.post('/api/changeInfo',user.infoChange)
-router.get('/api/get/userData',user.getUserData)
+router.post('/api/user/login',user.login)   //登录
+router.post('/api/user/register',user.register)  //注册
+router.post('/api/emailcode',user.emailCode)   //获取验证码
+router.post('/api/changeInfo',user.infoChange)  //修改信息
+router.get('/api/get/userData',user.getUserData)   //获取用户信息
 
 //留言
-router.post('/api/publish',comment.add_leave)
-router.get('/api/comment',comment.getComment)
-router.post('/api/publish/leave',comment.add_more_leave)
-router.post('/api/like',comment.like)
+router.post('/api/publish',comment.add_leave)   //添加留言
+router.get('/api/comment',comment.getComment)   //获取留言
+router.post('/api/publish/leave',comment.add_more_leave)  //留言下添加留言
+router.post('/api/like',comment.like)  //点赞
 
-router.post('/api/add/class',classInfo.add_class)
-router.post('/api/join/class',classInfo.join_class)
-router.post('/api/get/student',classInfo.getData)
+router.post('/api/add/class',classInfo.add_class)  //增加班级
+router.post('/api/join/class',classInfo.join_class)  //加入班级
+router.post('/api/get/student',classInfo.getData)   //获取学生信息
 router.post('/api/upload',classInfo.upload)    //发布作业
-router.get('/api/get/class',classInfo.getClassData)
-router.delete('/api/delete/class/:data',classInfo.deleteClass)
-router.get('/api/get/homework',classInfo.getHomework)
-router.get('/api/download/file',classInfo.downloadFile)
-router.post('/api/send/stuHomework',classInfo.sendHomework)
-router.get('/api/get/getstuList',classInfo.getstuList)
-router.get('/api/get/stuFile',classInfo.getStuFile)
-router.get('/api/get/videoMsg',home.getVideoMsg)
+router.get('/api/get/class',classInfo.getClassData)  //获取班级信息
+router.delete('/api/delete/class/:data',classInfo.deleteClass)  //删除班级
+router.get('/api/get/homework',classInfo.getHomework)   //获取作业
+router.get('/api/download/file',classInfo.downloadFile)  //下载文件
+router.post('/api/send/stuHomework',classInfo.sendHomework) //学生提交作业
+router.get('/api/get/getstuList',classInfo.getstuList)  //获取学生列表
+router.get('/api/get/stuFile',classInfo.getStuFile) //获取学生的作业
+router.get('/api/get/videoMsg',video.getVideoMsg)  //拿到视频的信息
+router.post('/api/publish/videoComment',video.videoComment) //发表视频评论
+router.get('/api/get/videoComment',video.getVideoComment)  //获取视频的评论
 
 //管理员
-router.get(`/api/get/alluser`,adminUser.getAllUser)
-router.delete('/api/delete/user/:id',adminUser.deleteUser)
-router.get('/api/search',adminUser.search)
-router.post('/api/send/user',adminUser.editUserInfo)
-router.post('/api/upload/video',adminFile.uploadVideo)
-router.get('/api/get/videos',adminFile.getVideos)
-router.delete('/api/delete/video/:id',adminFile.deleteVideo)
+router.get(`/api/get/alluser`,adminUser.getAllUser)  //获取所有用户
+router.delete('/api/delete/user/:id',adminUser.deleteUser)//删除用户
+router.get('/api/search',adminUser.search)//搜索用户
+router.post('/api/send/user',adminUser.editUserInfo)//编辑用户信息
+router.post('/api/upload/video',adminFile.uploadVideo)//上传信息
+router.get('/api/get/videos',adminFile.getVideos)//管理员获取视频信息
+router.delete('/api/delete/video/:id',adminFile.deleteVideo)//删除视频
 
 
 module.exports = router

@@ -140,4 +140,10 @@ export default {
     let {page = 1, size = 6} = data;
     return instance.get(`/api/get/videoMsg?page=${page}&size=${size}`);
   },
+  api_push_videoComment(data){
+    return instance.post('/api/publish/videoComment',data);
+  },
+  api_get_videoComment(data){
+    return instance.get(`/api/get/videoComment?id=${data}`);
+  }
 }

@@ -15,10 +15,10 @@
                             <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
                           </router-link>
                         <div class="desc">
-                          <router-link to='video'>
+                          <router-link :to="{path: '/video', query:o}">
                               <h3>{{o.topic}}</h3>
                           </router-link>
-                          <router-link to='video'>
+                          <router-link :to="{path: '/video', query:o}">
                               <p>{{o.content}}</p>
                           </router-link>
                         </div>

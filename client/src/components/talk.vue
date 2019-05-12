@@ -94,7 +94,7 @@ export default {
        
          jump(num){
             this.pagination.page = Number(num);
-            console.log(this.pagination);
+            
             this.getComment();
         }
       }

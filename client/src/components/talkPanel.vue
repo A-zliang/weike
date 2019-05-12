@@ -103,7 +103,7 @@ export default {
                 sec = "0"+sec
             }
             let create_time = `${year}-${month}-${date} ${hour}:${minu}:${sec}`;
-           return create_time;
+            return create_time;
         },
     },
     methods: {
