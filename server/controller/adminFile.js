@@ -42,8 +42,19 @@ module.exports = {
    },
    async deleteVideo(ctx){
       let _id = ctx.params.id;
-      let res = await Video.deleteOne({_id});
-      if(res.n!=0){
+      let res = await Video.find({_id});
+      let index =  res[0].filePath.lastIndexOf(".");
+      let ext = res[0].filePath.substring(index+1);
+      let res2 = await Video.deleteOne({_id});
+      let filePath = path.join(__dirname, '../public/videos/')+`${res[0].topic}.${ext}`;
+      if(res2.n!=0){
+          fs.unlink(filePath,(err)=>{
+               if(err){
+                  console.log(err);
+                  return false;
+               }
+               console.log('删除成功');
+          });
          ctx.body = {
             code:200,
             msg:'删除 成功'

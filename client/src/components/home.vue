@@ -9,21 +9,21 @@
             </div>
               <div class="videos">
                  <el-row>
-                  <el-col :span="7" v-for="(o, index) in 6" :key="o">
-                    <el-card :body-style="{ padding: '0px' }">
-                        <router-link to='video'>
-                           <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-                        </router-link>
-                      <div class="desc">
-                        <router-link to='video'>
-                            <h3>第一章</h3>
-                        </router-link>
-                         <router-link to='video'>
-                             <p>数字逻辑基本概念</p>
-                        </router-link>
-                      </div>
-                    </el-card>
-                  </el-col>
+                    <el-col :span="7" v-for="(o, index) in 6" :key="o">
+                      <el-card :body-style="{ padding: '0px' }">
+                          <router-link to='video'>
+                            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                          </router-link>
+                        <div class="desc">
+                          <router-link to='video'>
+                              <h3>第一章</h3>
+                          </router-link>
+                          <router-link to='video'>
+                              <p>数字逻辑基本概念</p>
+                          </router-link>
+                        </div>
+                      </el-card>
+                    </el-col>
                 </el-row>
               </div>
           </div>
@@ -38,7 +38,24 @@ import headtop from './head'
 import foot from './footer'
 import videos from './video'
   export default{
+    data() {
+      return {
+        videoList:[],
+        total:0,
+        pagination:{
+            page: 1,
+            size: 6,
+            total: 0
+        }
+      }
+    },
     components: {headtop,foot,videos},
+    methods: {
+     async getVideoMsg(){
+        let res = await this.$http.api_get_VideoMsg(this.pagination);
+        console.log(res);
+      }
+    },
   }
 
 </script>

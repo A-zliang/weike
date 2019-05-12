@@ -135,5 +135,9 @@ export default {
   },
   api_deleteVideo(data){
     return instance.delete(`/api/delete/video/${data}`)
-  }
+  },
+  api_get_VideoMsg(data){
+    let {page = 1, size = 6} = data;
+    return instance.get(`/api/get/videoMsg?page=${page}&size=${size}`);
+  },
 }

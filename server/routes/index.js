@@ -4,6 +4,7 @@ const comment = require('../controller/comment.js')
 const classInfo = require('../controller/classInfo.js')
 const adminUser = require('../controller/adminUser.js')
 const adminFile = require('../controller/adminFile.js')
+const home = require('../controller/home.js')
 
 
 
@@ -40,6 +41,7 @@ router.get('/api/download/file',classInfo.downloadFile)
 router.post('/api/send/stuHomework',classInfo.sendHomework)
 router.get('/api/get/getstuList',classInfo.getstuList)
 router.get('/api/get/stuFile',classInfo.getStuFile)
+router.get('/api/get/videoMsg',home.getVideoMsg)
 
 //管理员
 router.get(`/api/get/alluser`,adminUser.getAllUser)
