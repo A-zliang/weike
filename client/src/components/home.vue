@@ -9,17 +9,17 @@
             </div>
               <div class="videos">
                  <el-row>
-                    <el-col :span="7" v-for="(o, index) in 6" :key="o">
-                      <el-card :body-style="{ padding: '0px' }">
-                          <router-link to='video'>
+                    <el-col :span="7" v-for="(o, index) in videoList" :key="index">
+                      <el-card :body-style="{ padding: '0px'}">
+                          <router-link :to="{path: '/video', query:o}">
                             <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
                           </router-link>
                         <div class="desc">
                           <router-link to='video'>
-                              <h3>第一章</h3>
+                              <h3>{{o.topic}}</h3>
                           </router-link>
                           <router-link to='video'>
-                              <p>数字逻辑基本概念</p>
+                              <p>{{o.content}}</p>
                           </router-link>
                         </div>
                       </el-card>
@@ -49,11 +49,16 @@ import videos from './video'
         }
       }
     },
+    created() {
+      this.getVideoMsg();
+    },
     components: {headtop,foot,videos},
     methods: {
      async getVideoMsg(){
         let res = await this.$http.api_get_VideoMsg(this.pagination);
-        console.log(res);
+        if(res.data.code == 200){
+          this.videoList = res.data.res;
+        }
       }
     },
   }

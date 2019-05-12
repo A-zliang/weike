@@ -8,8 +8,18 @@ module.exports = {
             limit: Number(size),
         }
         let res  = await Video.find({},null,options);
-        let total = await User.countDocuments();
-        console.log(res);
-        console.log(total);
+        let total = await Video.countDocuments();
+        if(res.length!=0){
+            ctx.body = {
+                code:200,
+                res,
+                total
+            }
+        }else{
+            ctx.body = {
+                code:401,
+                msg:'获取视频信息失败'
+            }
+        }
     }
 }

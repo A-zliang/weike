@@ -35,14 +35,14 @@
                     <div class="right">
                         <h3>视频总数：{{videosList.length}}</h3>
                        <el-table  :data="videosList"  height="400" border  style="width: 100%" :default-sort = "{prop: 'create_time', order: 'descending'}" >
-                            <el-table-column  label="主题" width="160">
+                            <el-table-column  label="主题" width="260">
                                    <template slot-scope="scope">
                                         <i  @click="play(scope.$index, scope.row)" class="iconfont el-icon-dzshipin"></i> 
                                         <span @click="play(scope.$index, scope.row)" style="margin-left: 10px">{{ scope.row.topic }}</span>
                                     </template>
                             </el-table-column>
 
-                            <el-table-column prop="content"  label="内容简介" width="200"> </el-table-column>
+                            <!-- <el-table-column prop="content"  label="内容简介" width="200"> </el-table-column> -->
 
                             <el-table-column prop="create_time" label="添加时间"  :formatter="dateFormat"> </el-table-column>
 

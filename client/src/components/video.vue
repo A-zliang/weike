@@ -4,8 +4,8 @@
               <el-col :span="19"> 
                 <div class="grid-content bg-purple">
                   <div class="title">
-                    <h3>数字逻辑</h3>
-                    <p>数字逻辑数字逻辑数字逻辑数字逻辑</p>
+                    <h3>{{this.$route.query.topic}}</h3>
+                    <p>{{this.$route.query.content}}</p>
                   </div>
                    <video-player  class="video-player-box"
                             width="1000px"
@@ -18,7 +18,6 @@
                             @pause="onPlayerPause($event)"
                             @ended="onPlayerEnded($event)"
                             @waiting="onPlayerWaiting($event)"
-                            @playing="onPlayerPlaying($event)"
                             @statechanged="playerStateChanged($event)"
                             @ready="playerReadied">
                     </video-player>
@@ -60,7 +59,7 @@
 <script>
 
 export default {
-        data() {
+      data() {
       return {
         textarea: '',
         playerOptions: {
@@ -70,13 +69,16 @@ export default {
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
             type: "video/mp4",
-            src: "http://localhost:3000/videos/特斯拉.mp4"
+            src: ""
           }],
           poster: "/static/images/author.jpg",
           width: "1200px",
           height: "622px"
         }
       }
+    },
+    created() {
+     this.getSrc();
     },
     mounted() {
       console.log('this is current player instance object', this.player)
@@ -87,6 +89,10 @@ export default {
       }
     },
     methods: {
+      getSrc(){
+         this.playerOptions.sources[0].src ='http://localhost:3000/'+this.$route.query.filePath;
+         console.log(this.playerOptions.sources[0].src);
+      },
       // listen event
       onPlayerPlay(player) {
         // console.log('player play!', player)
@@ -112,6 +118,9 @@ export default {
 </script>
 
 <style scoped>
+  .video{
+    background-color: #f2f2f2;
+  }
   .grid-content {
     border-radius: 4px;
     min-height: 36px;
@@ -160,10 +169,18 @@ export default {
       display: inline-block;
       margin: 0 0 5px 0;
     }
+     .comment .item span:nth-child(1){
+       font-size: 18px;
+       color: #000;
+       font-family: sans-serif;
+     }
     .comment .item span:nth-child(2){
       float: right;
+      color: #999;
     }
     .comment .item p{
+      font-size: 14px;
+      color: #666;
       line-height: 25px;
     }
   .video .bottom{
