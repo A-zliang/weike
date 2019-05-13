@@ -163,6 +163,6 @@ export default {
     margin: 50px auto;
     background-size: 128px 128px;
     border-radius: 50%;
-    background-image: url('../assets/images/touxiang.jpg');
+    background-image: url('../../assets/images/touxiang.jpg');
   }
 </style>

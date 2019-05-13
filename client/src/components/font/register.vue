@@ -57,7 +57,7 @@ export default {
     components: { VueCropper},
     data(){
         return{
-            errorImg01: 'this.src="' + require('../../static/images/touxiang.jpg') + '"',
+            errorImg01: 'this.src="' + require('../../assets/images/touxiang.jpg') + '"',
             code:'',
             btn:'获取验证码',
             user:{

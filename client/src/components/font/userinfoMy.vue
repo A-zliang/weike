@@ -187,7 +187,7 @@ export default {
         top: 40%;
         margin: -64px 0 0 -64px;
         border-radius: 50%;
-        background-image: url('../assets/images/touxiang.jpg');
+        background-image: url('../../assets/images/touxiang.jpg');
     }
     .myinfo .touxiang:hover{
         opacity: 0.5;

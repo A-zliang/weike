@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import paginator from '../paginator'
+import paginator from '../font/paginator'
 export default {
     data() {
         return{

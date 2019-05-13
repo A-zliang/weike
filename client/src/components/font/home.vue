@@ -58,7 +58,6 @@ import videos from './video'
         let res = await this.$http.api_get_VideoMsg(this.pagination);
         if(res.data.code == 200){
           this.videoList = res.data.res;
-          console.log(this.videoList);
         }
       }
     },
@@ -67,6 +66,10 @@ import videos from './video'
 </script>
 
 <style scoped>
+ .home{
+    width: 100%;
+    min-width: 1263px;
+ }
   h1{
         margin: 0;
         padding: 0;
@@ -106,9 +109,6 @@ import videos from './video'
     margin: 25px 25px;
     cursor: pointer;
   }
-  .videos{
-    /* background-color: #ccc; */
-  }
    .videos .desc{
      padding: 14px;
      
@@ -130,4 +130,12 @@ import videos from './video'
   .videos .desc p:hover{
        color: red;
   }
+   .el-carousel__item h3 {
+    color: #475669;
+    font-size: 18px;
+    opacity: 0.75;
+    line-height: 300px;
+    margin: 0;
+  }
 </style>
+

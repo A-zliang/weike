@@ -215,7 +215,7 @@ export default {
         height: 80px;
         display: block;
         border-radius: 50%;
-        background-image: url('../assets/images/q4.jpg');
+        background-image: url('../../assets/images/q4.jpg');
         background-size: 80px 80px;
         border: 1px solid #ccc;
     }
@@ -287,7 +287,7 @@ export default {
         width: 80px;
         height: 80px;
         border-radius: 50%;
-        background-image: url('../assets/images/q4.jpg');
+        background-image: url('../../assets/images/q4.jpg');
         background-size: 80px 80px;
         border: 1px solid #ccc;
     }
