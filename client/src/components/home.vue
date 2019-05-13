@@ -4,7 +4,7 @@
         <div class="home">
            <div class="show">
             <div class="tip">
-                <h1>视频教程</h1>
+                <h1>视频教程</h1> 
                 <p>课程同步、名师讲解、课前预习、课后复习</p>
             </div>
               <div class="videos">
@@ -12,7 +12,7 @@
                     <el-col :span="7" v-for="(o, index) in videoList" :key="index">
                       <el-card :body-style="{ padding: '0px'}">
                           <router-link :to="{path: '/video', query:o}">
-                            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                            <img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=9fc39de227f5e0feee188e07645b5395/a8014c086e061d9565a7a5c371f40ad163d9ca6c.jpg" class="image">
                           </router-link>
                         <div class="desc">
                           <router-link :to="{path: '/video', query:o}">
@@ -58,6 +58,7 @@ import videos from './video'
         let res = await this.$http.api_get_VideoMsg(this.pagination);
         if(res.data.code == 200){
           this.videoList = res.data.res;
+          console.log(this.videoList);
         }
       }
     },
@@ -75,7 +76,7 @@ import videos from './video'
     width: 1263px;
     min-height: 800px;
     margin: 20px auto;
-    background-color: #ddd;
+    /* background-color: #ddd; */
   }
   .show .tip{
     width: 1263px;
@@ -87,6 +88,7 @@ import videos from './video'
   }
   .image {
     width: 100%;
+    height: 200px;
     display: block;
   }
   .image:hover{
@@ -105,7 +107,7 @@ import videos from './video'
     cursor: pointer;
   }
   .videos{
-    background-color: #ccc;
+    /* background-color: #ccc; */
   }
    .videos .desc{
      padding: 14px;

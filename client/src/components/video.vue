@@ -118,6 +118,7 @@ export default {
         let id = this.$route.query._id;
         let res = await this.$http.api_get_videoComment(id);
         if(res.data.code == 200){
+          console.log(res.data.res);
           let comment = {
             username:'',
             content:'',

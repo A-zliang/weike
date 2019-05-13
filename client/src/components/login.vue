@@ -51,11 +51,13 @@ export default {
 
 <style scoped>
     .login{
+        background-color: #fff;
         width: 400px;
         height: 300px;
         margin: 200px auto;
         border: 1px solid #ccc;
-        box-shadow: 1px 1px #ccc;
+        border-radius: 15px;
+        box-shadow: 4px 4px 15px rgba(0,0,0,.2);
         padding: 25px;
         position: relative;
     }

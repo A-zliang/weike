@@ -1,6 +1,6 @@
 <template>
     <div class="register">
-        <h2 style="text-align: center">用户注册</h2>
+        <h3 style="text-align: center">用户注册</h3>
 
         <div class="avatar-box">
           <img class="avatar-show" :src="user.avatar" alt="头像" :onerror="errorImg01">
@@ -164,8 +164,9 @@ export default {
     height: 650px;
     background-color: #fff;
     margin: 20px auto;
+    border-radius: 15px;
     padding: 30px;
-    box-shadow: 0 0 3px #111;
+    box-shadow: 4px 4px 15px rgba(0,0,0,.2);    
 }
 .register  el-input{
     margin-top:30px;
