@@ -9,9 +9,9 @@
                   <el-menu-item index="/">首页</el-menu-item>
                   <el-submenu index="2">
                       <template slot="title">课程概况</template>
-                      <el-menu-item index="2-1">课程简介</el-menu-item>
-                      <el-menu-item index="2-2">教学大纲</el-menu-item>
-                      <el-menu-item index="2-3">课程资源</el-menu-item>
+                      <el-menu-item index="/course">课程简介</el-menu-item>
+                      <el-menu-item index="/coursePlan">教学大纲</el-menu-item>
+                      <el-menu-item index="/courseSource">课程资源</el-menu-item>
                   </el-submenu>
                   <el-menu-item index="/talk">交流讨论</el-menu-item>      
                   <el-menu-item index="/userinfo">个人中心</el-menu-item>

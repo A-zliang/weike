@@ -9,7 +9,9 @@ import talk from '@/components/font/talk'
 import userinfoMsg from '@/components/font/userinfoMsg'
 import userinfoMy from '@/components/font/userinfoMy'
 import userinfoClass from '@/components/font/userinfoClass'
-
+import course from '@/components/font/course'
+import coursePlan from '@/components/font/coursePlan'
+import courseSource from '@/components/font/courseSource'
 import adminLogin from '@/components/admin/adminLogin'
 import main from '@/components/admin/main'
 import user from '@/components/admin/user'
@@ -127,6 +129,21 @@ const router = new Router({
         }
       ]
     },
+    {
+      path:'/course',
+      name:'course',
+      component: course
+    },
+    {
+      path:'/coursePlan',
+      name:'coursePlan',
+      component: coursePlan
+    },
+    {
+      path:'/courseSource',
+      name:'courseSource',
+      component: courseSource
+    }
   ]
 })
 
