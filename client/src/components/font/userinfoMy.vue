@@ -166,8 +166,9 @@ export default {
     .myinfo .top{
         width: 1010px;
         height: 208px;
-        background-color: #ccc;
+        background-color: #fff;
         border-right: 2px solid #dddddd;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
         margin: 10px auto;
         border-radius: 15px;
         position: relative;
@@ -194,9 +195,10 @@ export default {
     }
     .myinfo .bottom{
         width: 1010px;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
         border-radius: 15px;
         margin: 0 auto;
-        background-color: #eee;
+        background-color: #fff;
     }
      .myinfo .bottom label{
          font-size: 20px;

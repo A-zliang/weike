@@ -142,7 +142,6 @@ export default {
            background-color: #ddd;
     }
     .right{
-        background-color: #eee;
         margin: 0 30px;
     }
     .right h3{

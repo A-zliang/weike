@@ -13,7 +13,7 @@
                       <el-menu-item index="/coursePlan">教学大纲</el-menu-item>
                       <el-menu-item index="/courseSource">课程资源</el-menu-item>
                   </el-submenu>
-                  <el-menu-item index="/talk">交流讨论</el-menu-item>      
+                  <el-menu-item index="/talk">互动交流</el-menu-item>      
                   <el-menu-item index="/userinfo">个人中心</el-menu-item>
               </el-menu> 
           </div>

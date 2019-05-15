@@ -197,9 +197,9 @@ export default {
     .main{
         width: 100%;
         height: 150px;
+        background-color: #fff;
         border: 1px solid #ccc;
         margin-top: 15px;
-        border-radius: 8px;
         box-shadow: 0 3px 3px rgba(31,45,61,.15);
         overflow: auto;
     }
@@ -264,10 +264,10 @@ export default {
     .mmain{
         width: 100%;
         min-height: 300px; 
-         border: 1px solid #ccc;
+        background-color: #fff;
+        border: 1px solid #ccc;
         box-shadow: 2px 2px #eee;
         margin: 30px 0;
-        border-radius: 8px;
         overflow: auto;
     }
     .mleft{

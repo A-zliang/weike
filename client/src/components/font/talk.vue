@@ -110,6 +110,7 @@ export default {
    width: 100%;
    height: 350px;
    border: 1px solid #ccc;
+   background-color: #fff;
    margin-bottom: 20px;
    border-radius: 2px;
    box-shadow: 0 3px 3px rgba(31,45,61,.15);
