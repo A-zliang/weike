@@ -30,6 +30,42 @@
             </el-col>
         </el-row>
 
+         <el-row>
+            <el-col :span="12">
+                <div class="left">
+                        <h3>教学大纲</h3>
+
+                        <el-col :span="8">
+                            <el-form label-width="80px" class="form-center" >
+                                <el-form-item label="简介"  v-for="(domain, index) in formData.domains" :key="index">
+                                    <el-input  type="text" v-model="domain.title"  maxlength="10" show-word-limit></el-input>
+                                </el-form-item>
+                            </el-form> 
+                        </el-col>
+
+                        <el-col :span="11">
+                             <el-form label-width="80px" class="form-center">
+                                <el-form-item label="简介"  v-for="(domain, index) in formData.domains" :key="index">
+                                    <el-input  type="text"  v-model="domain.detail"  maxlength="10" show-word-limit></el-input>
+                                </el-form-item>
+                            </el-form> 
+                        </el-col>
+
+                        <el-col :span="5">
+                             <el-form label-width="80px" class="form-center">
+                               <el-button style="margin:0 0 0 10px;width:100px" type="primary" @click="addDomain">增加</el-button>
+                            </el-form> 
+                        </el-col>
+                </div>
+            </el-col>
+            <el-col :span="12">
+                <div class="right">
+                    
+                </div>
+            </el-col>
+        </el-row>
+        
+
            
          <el-dialog title="编辑页面" :visible.sync="editPanel">
                 <el-form  label-width="80px">
@@ -61,7 +97,14 @@ export default {
                 _id:"",
                 nav:"",
                 content:""
+            },
+            formData:{
+             domains: [{
+                title: '',
+                detail:''
+              }],
             }
+
         }
     },
     created() {
@@ -108,7 +151,13 @@ export default {
                this.getNavData();
                this.editPanel = false;
            }
-       }
+       },
+        addDomain() {
+          this.formData.domains.push({
+            title: '',
+            detail:''
+          });
+        },
     },
 }
 </script>
@@ -138,4 +187,22 @@ export default {
          height: auto;
          margin: 20px;
      }
+     .book{
+         margin: 20px;
+         padding: 20px;
+         background-color: #fff;
+         display: block;
+     }
+     .book .title{
+         width: 150px;
+     }
+     .book .detail{
+         width: 400px;
+     }
+      .book h3{
+          text-align: center;
+          font-weight: normal;
+          font-size: 25px;
+          padding: 15px;
+      }
 </style>

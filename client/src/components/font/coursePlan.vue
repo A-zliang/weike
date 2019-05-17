@@ -25,7 +25,7 @@
                                  
                                       <div class="grid-content mid">
                                         <h3>书籍展示</h3>
-                                        <img src="http://booklibimg.kfzimg.com//data/book_lib_img_v2/isbn/0/d264/d264fc1b14c210ccbf9a9b37ebc73531_0_0_0_0.jpg" alt="">
+                                        <img src="https://g-search3.alicdn.com/img/bao/uploaded/i4/i4/TB14XGtLpXXXXbFaXXXXXXXXXXX_!!0-item_pic.jpg_580x580Q90.jpg_.webp" alt="书籍图片">
                                     </div>
 
                                 </el-col>
