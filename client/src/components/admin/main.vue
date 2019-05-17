@@ -19,6 +19,7 @@
         <el-container style="min-height: 900px; border: 1px solid #eee" class="content">
             <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
                 <el-menu router>
+                    <el-menu-item index="/main/adminWebsite"><i class="el-icon-message"></i>网站管理</el-menu-item>
                     <el-menu-item index="/main/user"><i class="el-icon-message"></i>用户管理</el-menu-item>
                     <el-menu-item index="/main/classAdmin"><i class="el-icon-message"></i>班级管理</el-menu-item>
                     <el-menu-item index="/main/fileAdmin"><i class="el-icon-message"></i>资源管理</el-menu-item>

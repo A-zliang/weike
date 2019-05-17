@@ -26,7 +26,6 @@ const mutations = {
     state.user.identity = data.identity;
     state.user.classNum = data.classNum;
 
-
     window.sessionStorage.setItem('_id', data._id);
     window.sessionStorage.setItem('token', data.token);
     window.sessionStorage.setItem('user_name', data.user_name);

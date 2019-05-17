@@ -5,6 +5,7 @@ const classInfo = require('../controller/classInfo.js')
 const adminUser = require('../controller/adminUser.js')
 const adminFile = require('../controller/adminFile.js')
 const video = require('../controller/video.js')
+const adminWeb = require('../controller/adminWeb.js')
 
 
 
@@ -53,6 +54,8 @@ router.post('/api/send/user',adminUser.editUserInfo)//编辑用户信息
 router.post('/api/upload/video',adminFile.uploadVideo)//上传信息
 router.get('/api/get/videos',adminFile.getVideos)//管理员获取视频信息
 router.delete('/api/delete/video/:id',adminFile.deleteVideo)//删除视频
-
-
+router.post('/api/set/nav',adminWeb.navaAdmin)
+router.get('/api/get/navData',adminWeb.getNavData)
+router.post('/api/updata/navData',adminWeb.updataNav)
+router.delete('/api/delete/nav/:id',adminWeb.deleteNav);
 module.exports = router

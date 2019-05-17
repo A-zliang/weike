@@ -17,6 +17,7 @@ import main from '@/components/admin/main'
 import user from '@/components/admin/user'
 import fileAdmin from '@/components/admin/fileAdmin'
 import classAdmin from '@/components/admin/classAdmin'
+import adminWebsite from '@/components/admin/adminWebsite'
 import store from '../store/index'
 Vue.use(Router)
 
@@ -117,6 +118,10 @@ const router = new Router({
             component:user,
         },
         {
+          path:'adminWebsite',
+          component:adminWebsite,
+      },
+        {
           path:'classAdmin',
           component:classAdmin,
         },
@@ -125,7 +130,7 @@ const router = new Router({
           component:fileAdmin,
         },{
           path:'/',
-          component:user
+          component:adminWebsite
         }
       ]
     },

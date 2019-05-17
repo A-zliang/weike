@@ -145,5 +145,17 @@ export default {
   },
   api_get_videoComment(data){
     return instance.get(`/api/get/videoComment?id=${data}`);
+  },
+  api_set_nav(data){
+    return instance.post('/api/set/nav',data);
+  },
+  api_get_navData(data){
+    return instance.get('/api/get/navData');
+  },
+  api_updata_navData(data){
+    return instance.post('/api/updata/navData',data);
+  },
+  api_delete_nav(id){
+    return instance.delete(`/api/delete/nav/${id}`);
   }
 }

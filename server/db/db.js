@@ -97,6 +97,10 @@ const VcommentSchema = mongoose.Schema({
         default:Date.now
     }
 })
+const introSchema = mongoose.Schema({
+    nav:String,
+    content:String
+})
 exports.User = mongoose.model('User',userSchema);
 exports.Comment = mongoose.model('Comment',commentSchema);
 exports.ClassList = mongoose.model('ClassList',classSchema);
@@ -104,5 +108,6 @@ exports.HomeWork = mongoose.model('HomeWork',homeworkSchema);
 exports.StuHomework = mongoose.model('StuHomework',stuHomeworkSchema);
 exports.Video = mongoose.model('Video',videoSchema);
 exports.Vcomment = mongoose.model('Vcomment',VcommentSchema);
+exports.intro = mongoose.model('intro',introSchema);
 
 

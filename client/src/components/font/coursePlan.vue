@@ -24,7 +24,7 @@
                                 <el-col :span="8">
                                  
                                       <div class="grid-content mid">
-                                        <h3>课程书籍</h3>
+                                        <h3>书籍展示</h3>
                                         <img src="http://booklibimg.kfzimg.com//data/book_lib_img_v2/isbn/0/d264/d264fc1b14c210ccbf9a9b37ebc73531_0_0_0_0.jpg" alt="">
                                     </div>
 
@@ -44,6 +44,58 @@
                 </el-col>
             <el-col :span="3"><div class="grid-content"></div></el-col>
             </el-row>
+
+
+              <el-row class="plan">
+                <el-col :span="5">
+                    <div class="plan-left">
+                        <ul>
+                            <li><a>1.基本知识（4学时）</a></li>
+                            <li><a>2.逻辑代数基础（8学时） </a></li>
+                            <li><a>3.集成门电路与触发器（8学时）</a></li>
+                            <li><a>4.组合逻辑电路（6学时）</a></li>
+                            <li><a>5.同步时序逻辑电路（10学时） </a></li>
+                            <li><a>6.异步时序逻辑电路（10学时） </a></li>
+                            <li><a>7.中规模通用集成电路及应用（8学时） </a></li>
+                            <li><a>8.可编程逻辑器件（10学时）</a></li>
+                            <li><a>9.综合应用设计讨论（自学）</a></li>
+                        </ul>
+                    </div>
+                </el-col>
+                <el-col :span="19">
+                    <div class="plan-right">
+                        <el-card class="box-card plan-card">
+                            <div class="text item">
+                                1
+                            </div>
+                            <div class="text item">
+                                2
+                            </div>
+                            <div class="text item">
+                                3
+                            </div>
+                            <div class="text item">
+                                4
+                            </div>
+                            <div class="text item">
+                                5
+                            </div>
+                            <div class="text item">
+                                6
+                            </div>
+                            <div class="text item">
+                                7
+                            </div>
+                            <div class="text item">
+                                8
+                            </div>
+                            <div class="text item">
+                                9
+                            </div>
+                        </el-card>
+                    </div>
+                </el-col>
+            </el-row>
         <foot></foot>
     </div>
 </template>
@@ -58,11 +110,9 @@ export default {
     },
     components:{headtop,foot},
     methods: {
-         jump:function(ele){
-             console.log(ele);
-             let id = "#"+ele;
-            document.querySelector(id).scrollIntoView(true);
-        }
+         tabs(){
+             
+         }
     },
 }
 </script>
@@ -77,13 +127,12 @@ export default {
  .book .box-card{
     width: 100%;
     height: 370px;
-    margin: 50px 0;
-    background-color: #f2f2f2;
+    margin: 30px 0;
    }
    .book .left{
      background-color: #fff;
      height: 334px;
-     box-shadow: 12px 12px 38px #f2f2f2;
+     box-shadow: 5px 6px 25px #a19a9a;     
    }
    .book  h3{
      text-align: center;
@@ -101,7 +150,7 @@ export default {
       text-align: center;
   }
   .book .mid{
-     box-shadow: 4px 4px 20px #a19a9a;
+     box-shadow: 6px 6px 25px #a19a9a;
      background-color: #fff;
      height: 334px;
      margin: 0 15px;
@@ -117,9 +166,12 @@ export default {
        background-color: #ccc;
        border-top-right-radius: 15px;
    }
+    .book  ul li span{
+        line-height: 1.5;
+    }
   .book .right{
      background-color: #fff;
-     box-shadow: 4px 4px 25px #f2f2f2;
+     box-shadow: 5px 6px 25px #a19a9a;
      height: 334px;
   }
   .book .right ul li{
@@ -136,4 +188,44 @@ export default {
    .bg-purple-light {
     background: #e5e9f2;
   }
+
+
+
+
+    .plan{
+        margin: 50px auto;
+    }
+    .plan-card{
+        height: 385px;
+    }
+   .plan-left{
+       margin: 0 0 0 15px;
+    }
+    .plan-left ul li{
+        float: right;
+        width: 280px;
+        list-style: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+    
+    .plan-left ul li:hover{
+           background-color: #ddd;
+    }
+    .plan-right{
+        margin: 0 30px;
+        background-color: #fff;
+    }
+    .plan-right h3{
+        margin: 0 0 10px 0;
+        padding: 20px 0;
+        border-bottom: 1px solid #eee;	
+        font-size: 18px;
+    }
+    .plan-right p{
+        line-height: 2;
+	    font-size: 15px;
+    }
 </style>
