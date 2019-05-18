@@ -54,6 +54,7 @@ const classSchema = mongoose.Schema({
         },
         teacher: String,
 })
+// 老师发布作业信息
 const homeworkSchema = mongoose.Schema({
     classNum:String,
     topic:String,
@@ -67,6 +68,7 @@ const homeworkSchema = mongoose.Schema({
     username:String,
     user_identity:String
 })
+//学生作业
 const stuHomeworkSchema = mongoose.Schema({
     homework_id:String,
     username:String,
@@ -78,6 +80,7 @@ const stuHomeworkSchema = mongoose.Schema({
         default:Date.now
     }
 })
+// 视频信息
 const videoSchema = mongoose.Schema({
     topic:String,
     content:String,
@@ -88,6 +91,7 @@ const videoSchema = mongoose.Schema({
         default:Date.now
     }
 })
+//视频评论
 const VcommentSchema = mongoose.Schema({
     videoId:String,
     content:String,
@@ -97,9 +101,16 @@ const VcommentSchema = mongoose.Schema({
         default:Date.now
     }
 })
+// 课程简介
 const introSchema = mongoose.Schema({
     nav:String,
     content:String
+})
+
+const bookSchema = mongoose.Schema({
+    pic:String,
+    left:[],
+    right:[]
 })
 exports.User = mongoose.model('User',userSchema);
 exports.Comment = mongoose.model('Comment',commentSchema);
@@ -109,5 +120,6 @@ exports.StuHomework = mongoose.model('StuHomework',stuHomeworkSchema);
 exports.Video = mongoose.model('Video',videoSchema);
 exports.Vcomment = mongoose.model('Vcomment',VcommentSchema);
 exports.intro = mongoose.model('intro',introSchema);
+exports.book = mongoose.model('book',bookSchema);
 
 

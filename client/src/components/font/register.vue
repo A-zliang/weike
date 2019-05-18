@@ -73,8 +73,8 @@ export default {
              cropperData: {
 				img: '',
 				autoCrop: true,
-				autoCropWidth: 200,
-				autoCropHeight: 200,
+				autoCropWidth: 300,
+				autoCropHeight: 300,
 				fixedBox: true
             },
         }

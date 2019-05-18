@@ -157,5 +157,11 @@ export default {
   },
   api_delete_nav(id){
     return instance.delete(`/api/delete/nav/${id}`);
+  },
+  api_set_bookMsg(data){
+    return instance.post('/api/set/bookMsg',data);
+  },
+  api_get_bookMsg(){
+    return instance.get('/api/get/bookMsg');
   }
 }

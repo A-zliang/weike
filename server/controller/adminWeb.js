@@ -1,4 +1,5 @@
 const intro = require('../db/db.js').intro;
+const book = require('../db/db.js').book;
 
 module.exports = {
   async  navaAdmin(ctx){
@@ -56,5 +57,37 @@ module.exports = {
                  code:200
             }
         }
+   },
+   async bookMsg(ctx){
+       let left=[];
+       let right=[];
+       let pic = ctx.request.body.pic;
+       left = ctx.request.body.left;
+       right = ctx.request.body.right;
+       let bookmsg =  new book({pic,left,right})
+       let res  = await bookmsg.save();
+       if(res.length!=0){
+           ctx.body = {
+               code:200,
+               msg:'添加成功'
+           }
+       }else{
+            ctx.body = {
+                code:401
+            }
+       }
+   },
+   async getBookMsg(ctx){
+       let res = await book.find({});
+       if(res.length!=0){
+           ctx.body = {
+               code:200,
+               res
+           }
+       }else{
+           ctx.body ={
+               code:401
+           }
+       }
    }
 }
