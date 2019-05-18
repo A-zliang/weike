@@ -59,13 +59,20 @@ module.exports = {
         }
    },
    async bookMsg(ctx){
+       let res;
        let left=[];
        let right=[];
+       let _id = ctx.request.body._id;
        let pic = ctx.request.body.pic;
        left = ctx.request.body.left;
        right = ctx.request.body.right;
-       let bookmsg =  new book({pic,left,right})
-       let res  = await bookmsg.save();
+       if(_id == ''){
+             let bookmsg =  new book({pic,left,right})
+              res  = await bookmsg.save();
+       }else{
+            res = await book.update({_id},{$set:{pic:pic,left:left,right:right}});
+       }
+       console.log(res);
        if(res.length!=0){
            ctx.body = {
                code:200,

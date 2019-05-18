@@ -155,6 +155,7 @@ export default {
         content: ""
       },
       formData: {
+        _id:"", //用于标记是否为第一次提交
         pic: "",
         left: [
           {
@@ -181,7 +182,7 @@ export default {
   },
   created() {
     this.getNavData();
-   // this.getbookMsg();
+    this.getbookMsg();
   },
   components:{VueCropper},
   methods: {
@@ -304,11 +305,12 @@ export default {
     async getbookMsg(){
       let res = await this.$http.api_get_bookMsg();
       if(res.data.code == 200){
-        // //console.log(res);
-        // this.formData.pic = res.data.res[0].pic;
-        // this.formData.left = res.data.res[0].left;
-        // this.formData.right = res.data.res[0].pic;
-        // console.log(this.formData.pic);
+        this.formData._id = res.data.res[0]._id;
+        console.log(this.formData._id);
+         this.formData.pic = res.data.res[0].pic;
+         this.formData.left = res.data.res[0].left;
+         this.formData.right = res.data.res[0].right;
+         console.log(this.formData.left);
       }
     }
   }
