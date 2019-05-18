@@ -10,31 +10,23 @@
                                 <el-col :span="8">
                                      <div class="grid-content  left">
                                         <h3>数字逻辑第四版</h3>
-                                            <ul>
-                                                <li> <label>作者</label> <span>欧阳星明 主编；于俊清 副主编</span> </li>
-                                                <li> <label>出版社</label> <span>华中科技大学出版社</span> </li>
-                                                <li> <label>出版时间</label> <span>2009-02</span> </li>
-                                                <li> <label>版次</label> <span>4</span> </li>
-                                                <li> <label>正文语种</label> <span>简体中文</span> </li>
-                                                <li> <label>丛书</label> <span>普通高等教育“十一五”国家级规划教材；国家级精品课程主教材</span> </li>
+                                            <ul  v-for="(item, index) in formData.left" :key="index">
+                                                <li> <label>{{item.title}}</label> <span>{{item.detail}}</span> </li>
                                             </ul>
                                     </div>
-
                                 </el-col>
                                 <el-col :span="8">
-                                 
                                       <div class="grid-content mid">
                                         <h3>书籍展示</h3>
-                                        <img src="https://g-search3.alicdn.com/img/bao/uploaded/i4/i4/TB14XGtLpXXXXbFaXXXXXXXXXXX_!!0-item_pic.jpg_580x580Q90.jpg_.webp" alt="书籍图片">
+                                        <img :src="formData.pic" alt="书籍图片">
                                     </div>
 
                                 </el-col>
                                 <el-col :span="8" >
                                     <div class="grid-content right">
                                             <h3>作者简介</h3>
-                                            <ul>
-                                                <li><label>姓名</label> 欧阳星明</li>
-                                                <li><label>代表作品</label>《数字逻辑》、《微型机算计接口技术及应用》《逻辑设计》、《微型计算机及其应用》</li>
+                                            <ul  v-for="(item, index) in formData.right" :key="index">
+                                                <li><label>{{item.title}}</label>{{item.detail}}</li>
                                             </ul>
                                     </div>
                                 </el-col>
@@ -105,14 +97,37 @@ import foot from './footer'
 export default {
     data() {
         return {
-            tabPosition: 'left'
+            tabPosition: 'left',
+             formData: {
+                _id:"", //用于标记是否为第一次提交
+                pic: "",
+                left: [{
+                    title: "",
+                    detail: ""
+                }],
+                right: [{
+                    key: "",
+                    value: ""
+                }]
+            },
         }
     },
     components:{headtop,foot},
+    created() {
+        this.getbookMsg();
+    },
     methods: {
-         tabs(){
-             
-         }
+        async getbookMsg(){
+            let res = await this.$http.api_get_bookMsg();
+            if(res.data.code == 200){
+                this.formData._id = res.data.res[0]._id;
+                console.log(this.formData._id);
+                this.formData.pic = res.data.res[0].pic;
+                this.formData.left = res.data.res[0].left;
+                this.formData.right = res.data.res[0].right;
+                console.log(this.formData.left);
+            }
+        }
     },
 }
 </script>

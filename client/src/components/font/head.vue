@@ -2,7 +2,7 @@
     <div class="top">
       <div class="center">
           <div class="title">
-                  <h1>数字逻辑微课网</h1>
+                  <h1 class="logo">数字逻辑微课网</h1>
           </div>
           <div class="nav">
               <el-menu :default-active="$route.path" router class="el-menu-demo" mode="horizontal" background-color="#e1e5eb" text-color="#475669" active-text-color="#475669">
@@ -43,6 +43,14 @@
         background-color: #e1e5eb;
         border-bottom: 2px solid #ccc;
     }
+    .top .logo{
+       width: 238px;
+       height: 60px;
+       background-image: url('../../assets/logo.png');
+       background-size: contain;
+       text-indent: -9999999px;
+       float: left;
+    }
     .top .center{
       width: 1263px;
       height: 60px;
@@ -50,12 +58,10 @@
     }
     .top .center .title{
         line-height: 60px;
-        float: left;
+        /* float: left; */
     }
-    .top .title h1{
-       font-family:"Times New Roman",Times,serif;
-       font-weight: normal;
-       font-style:italic;
+    .top .center .title h1{
+
     }
    .top .center .nav{
         width: 600px;
