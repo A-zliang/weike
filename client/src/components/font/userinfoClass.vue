@@ -39,7 +39,12 @@
                         <el-table-column label="班级" width="140" prop="classNum"></el-table-column>
                         <el-table-column label="姓名" width="120" prop="username"></el-table-column>
                         <el-table-column label="邮箱" prop="email"></el-table-column>
-                        <el-table-column width="120"><el-button type="primary" v-show="user_identity=='教师'">删除</el-button> </el-table-column>
+
+                        <el-table-column  width="120">
+                            <template slot-scope="scope">
+                                 <el-button type="primary" v-show="user_identity=='教师'" @click="deleteStu(scope.$index, scope.row)">删除</el-button>                               
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </div>
             </el-tab-pane>
@@ -348,6 +353,16 @@
        async getStudentFile(id){ 
         console.log(id);
         await window.open(`/api/get/stuFile?id=${id}`,'_self');
+       },
+       async deleteStu(index,row){
+           if(confirm(`确定删除${row.username}同学吗？`)){
+                let res = await this.$http.api_delete_classStu(row);
+                if(res.data.code==200){
+                    alert('删除成功');
+                }else{
+                    alert('删除失败');
+                }
+           }
        }
     },
   };

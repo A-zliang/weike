@@ -2,7 +2,7 @@
     <div class="myinfo">
         <div class="top">
             <!-- 头像 -->
-            <img :src="user_avatar" alt="头像"  class="touxiang">
+            <img :src="user_avatar" alt="头像" :onerror="errorImg01" class="touxiang">
             <h2>{{user_name}}</h2>
         </div>
         <div class="bottom">
@@ -24,6 +24,7 @@
 export default {
     data() {
         return {
+            errorImg01: 'this.src="' + require('../../assets/images/touxiang.jpg') + '"',
             showMark1: false,
             showMark2: false,
             code: '',

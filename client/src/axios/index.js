@@ -163,5 +163,8 @@ export default {
   },
   api_get_bookMsg(){
     return instance.get('/api/get/bookMsg');
+  },
+  api_delete_classStu(data){
+    return instance.post(`/api/delete/classStu`,data);
   }
 }

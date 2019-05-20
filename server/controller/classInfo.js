@@ -4,9 +4,10 @@ const StuHomework = require('../db/db.js').StuHomework;
 const User = require('../db/db.js').User;
 const sha1 = require('sha1');
 const fs = require('fs');
-var archiver = require('archiver');  //用于压缩文件
-var path = require("path")
+const archiver = require('archiver');  //用于压缩文件
+const path = require("path")
 const send = require('koa-send');
+const removeAaary = require('../models/removeAaary.js');
 
 module.exports = {
     async add_class(ctx,next){
@@ -138,7 +139,7 @@ module.exports = {
             }
         } else{
             ctx.body ={
-                
+                code:401
             }
         }
         
@@ -178,6 +179,10 @@ module.exports = {
             ctx.body = {
                 code: 200,
                 res
+            }
+        }else{
+            ctx.body={
+                code:401
             }
         }
     },
@@ -282,7 +287,7 @@ module.exports = {
                 }
             }else{
                 ctx.body = {
-                    code:400,
+                    code:401,
                     msg:'提交失败'
                 }
             }
@@ -304,6 +309,32 @@ module.exports = {
     async getStuFile(ctx){
         let path = '/public/test.zip';
         await send(ctx,path);
-    }
+    },
+    async deleteClassStu(ctx){
+        let setNull = '';
+        let classNum = ctx.request.body.classNum;
+        let _obj = ctx.request.body;
+        let _id = ctx.request.body._id;
+        let res = await ClassList.find({classNum});
+        let student = res[0].student;
+        
+        let p = student.indexOf(_obj);
+        student.splice(p,1);
+
+        
+        let res2 = await ClassList.update({classNum:classNum},{$set:{student:student}});
+       
+    
+        if(res.length!=0){
+            let res3 = await User.update({_id},{$set:{classNum:setNull}});
+            ctx.body = {
+                code:200
+            }
+        }else{
+            ctx.body = {
+                code:401
+            }
+        }
+    },
 
 }

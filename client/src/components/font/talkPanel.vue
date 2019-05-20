@@ -3,7 +3,7 @@
 <!--1. 左边头像和名字部分 -->
         <div :class="index == true ? 'left' : 'mleft'">
             
-            <img :src="comment.avatar" alt="头像"  :class="index == true ? 'touxiang' : 'mtouxiang'">
+            <img :src="comment.avatar" alt="头像" :onerror="errorImg01" :class="index == true ? 'touxiang' : 'mtouxiang'">
             <h3>{{comment.username}}</h3>
         </div>
 
@@ -62,6 +62,7 @@ export default {
     props:['comment'],
     data() {
         return {
+            errorImg01: 'this.src="' + require('../../assets/images/touxiang.jpg') + '"',            
             index: true,
             likeMark:false,
             mComments: {
