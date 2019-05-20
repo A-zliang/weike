@@ -386,6 +386,7 @@ hr{
     border-radius: 16px;
     margin: 50px auto;
     border: 1px solid #ccc;
+    background-color: #fff;
     box-shadow: 12px 12px 5px #ddd;
 }
  h2{
@@ -429,6 +430,7 @@ hr{
     margin: 30px auto;
     width: 1050px;
     border: 1px solid #ccc;
+    background-color: #fff;
     border-radius: 16px;
     box-shadow: 12px 12px 5px #ddd;
 }

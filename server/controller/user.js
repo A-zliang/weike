@@ -112,25 +112,33 @@ module.exports = {
 
 
     async infoChange(ctx,next){
-        let {username,password1,password2,email,backCode} =  ctx.request.body;
-         let password = sha1(password1);
+        let {username,password1,password2,email,backCode,avatar} =  ctx.request.body;
+        console.log(avatar);
+        let password = sha1(password1);
         if(email == ''){
-            let res = await User.update({username:username},{$set:{password:password}});
+            if(avatar == ''){
+                let res = await User.update({username:username},{$set:{password:password}});
+            }else{
+                let res = await User.update({username:username},{$set:{password:password,avatar:avatar}});
+            }
             ctx.body = {
                 code: 200,
                 msg: '密码修改成功',
             }
             return;
         }
-        if((password1 == '')&&(password1 == '')){
-            let res = await User.update({username:username},{$set:{email:email}});
+        if((password1 == '')&&(password2 == '')){
+            if(avatar==''){
+                 let res = await User.update({username:username},{$set:{email:email}});
+            }else{
+                let res = await User.update({username:username},{$set:{email:email,avatar:avatar}});
+            }
             let res2 = await User.find({username});
-            console.log(res2);
             ctx.body = {
                 code: 200,
                 msg: '邮箱修改成功',
                 data:{
-                    _id:res[0]._id,
+                    _id:res2[0]._id,
                     username: res2[0].username,
                     useremail: res2[0].email,
                     useridentity: res2[0].identity,                
@@ -140,14 +148,42 @@ module.exports = {
             }
             return;
         }
-       
-        let res = await User.update({username:username},{$set:{email:email,password:password}});
+
+        // if((password1 == '')&&(password2 == '')&&(email == '')){
+        //     if(avatar!=''){
+        //         let res = await User.update({username:username},{$set:{avatar:avatar}});  
+        //          let res2 = await User.find({username});
+        //                              
+        //         ctx.body = {
+        //             code:200,
+        //             data:{
+        //                 _id:res2[0]._id,
+        //                 username: res2[0].username,
+        //                 useremail: res2[0].email,
+        //                 useridentity: res2[0].identity,                
+        //                 token:res2[0].token,
+        //                 avatar:res2[0].avatar
+        //             }
+        //         }  
+        //     }else{
+        //         ctx.body = {
+        //             code:401
+        //         }
+        //     }
+        //     return;
+        // }
+
+       if(avatar==''){
+              let res = await User.update({username:username},{$set:{email:email,password:password}});
+       }else{
+        let res = await User.update({username:username},{$set:{email:email,password:password,avatar:avatar}});           
+       }
         let res2 = await User.find({username});
         ctx.body = {
             code: 200,
             msg: '修改成功',
             data:{
-                _id:res[0]._id,
+                _id:res2[0]._id,
                 username: res2[0].username,
                 useremail: res2[0].email,
                 useridentity: res2[0].identity,                

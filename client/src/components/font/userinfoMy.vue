@@ -3,7 +3,8 @@
         <div class="top">
             <!-- 头像 -->
             <img :src="user_avatar" alt="头像" :onerror="errorImg01" class="touxiang">
-            <h2>{{user_name}}</h2>
+             <label class="upload-img-btn" for="upload-img">更改头像</label>
+            <input id="upload-img" type="file" @change="upload_img">
         </div>
         <div class="bottom">
             <label><span>姓名</span><el-input class="inputInfo"  v-model="user_name" :disabled="true"></el-input></label>
@@ -18,9 +19,26 @@
             <label v-show="showMark2"><span>验证码</span><el-input class="inputInfo input-code" v-model="code"></el-input><el-button plain @click="getCode">发送验证码</el-button></label>
             <label><el-button class="btn" type="primary" @click="change" @keyup="change">保存设置</el-button></label>
         </div>
+         <div class="cropper-img-box" v-if="cropper_box_mark == true">
+            <vueCropper
+            ref="cropper"
+            :img="cropperData.img"
+            :autoCrop="cropperData.autoCrop"
+            :autoCropWidth="cropperData.autoCropWidth"
+            :autoCropHeight="cropperData.autoCropHeight"
+            :fixedBox="cropperData.fixedBox">
+            </vueCropper>
+            <div class="cropper-img-tool">
+            <button class="cropper-img-tool-btn" @click="rotateRight">顺时针90°</button>
+            <button class="cropper-img-tool-btn" @click="finish">确认</button>
+            <button class="cropper-img-tool-btn" @click="cropper_box_mark = false">取消</button>
+            <button class="cropper-img-tool-btn" @click="rotateLeft">逆时针90°</button>
+            </div>
+         </div>
     </div>
 </template>
 <script>
+import { VueCropper }  from 'vue-cropper'
 export default {
     data() {
         return {
@@ -33,8 +51,17 @@ export default {
                 password1: '',
                 password2: '',
                 email: '',
-                backCode: ''
-            }
+                backCode: '',
+                avatar:''
+            },
+             cropper_box_mark: false,
+             cropperData: {
+				img: '',
+				autoCrop: true,
+				autoCropWidth: 300,
+				autoCropHeight: 300,
+				fixedBox: true
+            },
         }
     },
     computed: {
@@ -51,7 +78,20 @@ export default {
             return this.$store.state.user.avatar;
         }
     },
+    components: { VueCropper},
     methods: {
+         rotateRight(){
+         this.$refs.cropper.rotateRight();
+    },
+    rotateLeft() {
+      this.$refs.cropper.rotateLeft();
+    },
+    finish () {
+      this.$refs.cropper.getCropData((data) => {
+        this.user.avatar = data;
+        this.cropper_box_mark  = false;
+      })
+    },
         showMore1(){
             this.showMark1 = !this.showMark1;
         },
@@ -62,10 +102,9 @@ export default {
             var regpassword = /^[a-zA-Z]\w{5,17}$/;
             var regeamil = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
             this.user.username = this.$store.state.user.user_name;
-
             if(this.user.email == ''){                                              //改密码
                if(!regpassword.test(this.user.password1)){
-                    alert('密码要以字母开头且长度在6个字符以上');
+                    alert('密码要以字母开头且长度在6个字符以上111');
                     return;
                 }else if(this.user.password1 != this.user.password2){
                     alert('两次输入的密码不一致');
@@ -102,9 +141,8 @@ export default {
                     this.showMark1 = false;
                     this.showMark2 = false;
                 }
-                
                 return;
-            } else{                                                                 //都修改
+            }else{                                                                 //都修改
                 if(!regpassword.test(this.user.password1)){
                     alert('密码要以字母开头且长度在6个字符以上');
                     return;
@@ -130,6 +168,8 @@ export default {
                      avatar:data.avatar
                 })
                     alert(msg);
+                    this.$store.commit("remove");
+                    this.$router.push('/login');
                     this.showMark1 = false;
                     this.showMark2 = false;
                 }
@@ -151,6 +191,24 @@ export default {
 
             this.btn = "<p style='color:red'>重新发送</p>";
             
+        },
+            upload_img(e){
+            
+            let obj = e.target;
+            let file = obj.files[0];
+            let temArr = file.name.split(".");
+            let file_suffix = temArr[temArr.length-1];
+            if(file_suffix != 'jpg' && file_suffix != 'png' && file_suffix != 'jpeg'){
+                alert("上传图片失败，目前只支持jpg,png,jpeg的图片!");
+                return;
+            }
+            let reader = new FileReader();
+            let _self = this;
+            reader.onload = function (ev) {
+                _self.cropperData.img = ev.target.result;		      
+                _self.cropper_box_mark = true;
+            }
+            reader.readAsDataURL(file);
         },
     },
 
@@ -227,4 +285,50 @@ export default {
         width: 280px;
         margin-right: 10px;
     }
+    .avatar-show {
+    margin: 0 auto;
+    display: block;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
+   .upload-img-btn {
+    width: 80px;
+    text-align: center;
+    border: 1px solid #ccc;
+    display: block;
+    position: absolute;
+    text-align: center;
+    top: 70%;
+    left: 45%;
+    padding: 5px 15px;
+    transform: translateY(40%);
+    margin: 5px auto;
+    cursor: pointer;
+  }
+   .cropper-img-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+  #upload-img{
+    opacity: 0;
+    display: none;
+  }
+  .cropper-img-tool {
+    position: absolute;
+    z-index: 2;
+    bottom: 20px;
+    left: 0;
+    text-align: center;
+    width: 100%;
+  }
+  .cropper-img-tool-btn {
+      width: 140px;
+      height: 50px;
+      font-size: 18px;
+      cursor: pointer;
+  }
 </style>
