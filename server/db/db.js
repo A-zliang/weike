@@ -32,6 +32,12 @@ const userSchema = mongoose.Schema({
     },
 });
 
+const adminSchema = mongoose.Schema({
+    account:String,
+    password:String,
+    token:String
+})
+
 //留言
 const commentSchema = mongoose.Schema({
     username: String,
@@ -120,5 +126,6 @@ exports.Video = mongoose.model('Video',videoSchema);
 exports.Vcomment = mongoose.model('Vcomment',VcommentSchema);
 exports.intro = mongoose.model('intro',introSchema);
 exports.book = mongoose.model('book',bookSchema);
+exports.admin = mongoose.model('admin',adminSchema);
 
 

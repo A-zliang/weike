@@ -1,7 +1,50 @@
 const intro = require('../db/db.js').intro;
 const book = require('../db/db.js').book;
+const sha1 = require('sha1');
+const admin = require('../db/db.js').admin;
+const createToken = require('../token/createToken.js');
 
 module.exports = {
+    async adminLogin(ctx){
+        let account = ctx.request.body.account;
+        let password = ctx.request.body.checkPass;
+        let _id;
+        let re = await admin.find({account});
+        if(re.length!=0){
+             _id = re[0]._id;
+        }else{
+            _id = '';
+        }
+        password = sha1(password);
+        let token = createToken(account);
+        if(_id == ''){
+            let a = new admin({account,password,token});
+            let add = await a.save();
+            let res = await admin.find({account});
+            console.log(res);
+            ctx.body = {
+                code:200,
+                data:{
+                    _id:res[0]._id,
+                    account:res[0].account,
+                    token
+                }
+            }
+            return;
+        }
+        let res2 = await admin.find({account,password});
+        if(res2.length!=0){
+            ctx.body = {
+                code:200,
+                data:{
+                    _id:res2[0]._id,
+                    account:res2[0].account,
+                    token
+                }
+            }
+        }
+        
+    },
   async  navaAdmin(ctx){
         console.log(ctx.request.body);
         let nav = ctx.request.body.nav;

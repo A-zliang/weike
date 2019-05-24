@@ -178,5 +178,8 @@ export default {
   },
   api_change_avatar(data){
     return instance.post('/api/change/avatar',data);
+  },
+  api_admin_login(data){
+    return instance.post('/api/admin/login',data);
   }
 }

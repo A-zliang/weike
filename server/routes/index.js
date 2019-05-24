@@ -63,5 +63,5 @@ router.get('/api/get/bookMsg',adminWeb.getBookMsg)
 router.post('/api/set/bookUnit',adminWeb.bookUnit)
 router.post('/api/update/bookUnit',adminWeb.bookUpdate)
 router.post('/api/delete/bookUnit',adminWeb.deleteBookUnit)
-
+router.post('/api/admin/login',adminWeb.adminLogin)
 module.exports = router

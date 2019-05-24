@@ -108,53 +108,83 @@ const router = new Router({
     {
       path: '/adminLogin',
       name: adminLogin,
-      component:adminLogin
+      component:adminLogin,
     },
     {
       path: '/main',
       name: main,
       component:main,
+      meta:{
+        requiresAuth2: true
+      },
       children:[
         {
             path:'user',
             component:user,
+            meta:{
+              requiresAuth2: true
+            }
         },
         {
           path:'adminWebsite',
           component:adminWebsite,
+          meta:{
+            requiresAuth2: true
+          }
       },
         {
           path:'classAdmin',
           component:classAdmin,
+          meta:{
+            requiresAuth2: true
+          }
         },
         {
           path:'fileAdmin',
           component:fileAdmin,
+          meta:{
+            requiresAuth2: true
+          }
         },{
           path:'/',
-          component:adminWebsite
+          component:adminWebsite,
+          meta:{
+            requiresAuth2: true
+          }
         }
       ]
     },
     {
       path:'/course',
       name:'course',
-      component: course
+      component: course,
+      meta:{
+        requiresAuth: true
+      }
     },
     {
       path:'/coursePlan',
       name:'coursePlan',
-      component: coursePlan
+      component: coursePlan,
+      meta:{
+        requiresAuth: true
+      }
     },
     {
       path:'/courseSource',
       name:'courseSource',
-      component: courseSource
+      component: courseSource,
+      meta:{
+        requiresAuth: true
+      }
     },
     {
       path:'/moreVideo',
       name:'moreVideo',
-      component:moreVideo
+      component:moreVideo,
+      meta:{
+        requiresAuth: true
+      }
     }
   ]
 })
@@ -163,6 +193,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   //获取store里面的token
   let token = store.state.user.token;
+  let token2 = store.state.admin.token;
   //判断要去的路由有没有requiresAuth
   if(to.meta.requiresAuth){
       if(token){
@@ -173,7 +204,17 @@ router.beforeEach((to, from, next) => {
           query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
         });
       } 
-  }else{
+  }else if(to.meta.requiresAuth2){
+      if(token2){
+        next();
+      }else{
+        next({
+          path: '/adminLogin',
+          query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
+        });
+      } 
+  }
+  else{
     next();
   }
 });

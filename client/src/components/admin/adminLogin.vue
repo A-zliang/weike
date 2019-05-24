@@ -20,6 +20,7 @@
       return {
         logining: false,
         ruleForm2: {
+          _id:'',
           account: 'admin',
           checkPass: '123456'
         },
@@ -35,8 +36,18 @@
       };
     },
     methods: {
-      handleSubmit2() {
-          this.$router.push('/main');
+    async handleSubmit2() {
+          let res = await this.$http.api_admin_login(this.ruleForm2);
+          console.log(res);
+          let {code,data=[]} = res.data;
+          if(code == 200){
+                this.$store.commit('saveAdmin', {
+                     _id:data._id,
+                     token: data.token,
+                     admin_user: data.account,
+                })
+                this.$router.push('/main');
+          }
       }
     }
   }

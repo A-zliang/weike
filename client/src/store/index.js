@@ -13,6 +13,11 @@ const state = {
     email: window.sessionStorage.getItem('email') || '',
     identity: window.sessionStorage.getItem('identity') || '',
     classNum: window.sessionStorage.getItem('classNum') || '',
+  },
+  admin:{
+    _id: window.sessionStorage.getItem('_id') || '',
+    admin_user: window.sessionStorage.getItem('adminuser') || '',
+    token: window.sessionStorage.getItem('token') || '',
   }
 }
 
@@ -34,6 +39,16 @@ const mutations = {
     window.sessionStorage.setItem('identity', data.identity);
     window.sessionStorage.setItem('classNum', data.classNum);
   },
+  saveAdmin: (state,data) => {
+    state.admin._id = data._id;
+    state.admin.token = data.token;
+    state.admin.admin_user = data.admin_user;
+    
+
+    window.sessionStorage.setItem('_id', data._id);
+    window.sessionStorage.setItem('token', data.token);
+    window.sessionStorage.setItem('admin_user', data.admin_user);
+  },
   remove: (state) => {
     state.user.token = '';
     state.user.user_name = '';
@@ -50,6 +65,17 @@ const mutations = {
     window.sessionStorage.removeItem('email');
     window.sessionStorage.removeItem('identity');
     window.sessionStorage.removeItem('classNum');
+  },
+  removeAdmin: (state) => {
+    state.admin.token = '';
+    state.admin.admin_user = '';
+    state.admin._id = '';
+    
+
+    window.sessionStorage.removeItem('_id');
+    window.sessionStorage.removeItem('token');
+    window.sessionStorage.removeItem('admin_user');
+   
   },
   updateClassNum(state,num){
     state.user.classNum = num;
