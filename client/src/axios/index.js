@@ -166,5 +166,17 @@ export default {
   },
   api_delete_classStu(data){
     return instance.post(`/api/delete/classStu`,data);
+  },
+  api_set_bookUnit(data){
+    return instance.post('/api/set/bookUnit',data);
+  },
+  api_updata_bookUnit(data){
+    return instance.post('/api/update/bookUnit',data);
+  },
+  api_delete_bookUnit(data){
+    return instance.post(`/api/delete/bookUnit`,data);
+  },
+  api_change_avatar(data){
+    return instance.post('/api/change/avatar',data);
   }
 }

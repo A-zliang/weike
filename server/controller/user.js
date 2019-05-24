@@ -22,30 +22,50 @@ module.exports = {
         }
         password = sha1(password);
         let res = await User.find({username, password});
-        if(res.length == 0) {
+        let res2 = await User.find({email:username,password});
+        if((res.length == 0)&&(res2.length == 0)) {
             ctx.body = {
                 code: 401,
                 msg: '登录失败，用户名或密码错误'
             }
             return;
         }
-        let token = createToken(username);
-        res[0].token = token;
-        res[0].save();
+         let token = createToken(username);
+        // res[0].token = token;
+        // res[0].save();
         // console.log(res[0].email);
-        ctx.body = {
-            code: 200,
-            msg: '登录成功',
-            data:{
-                _id:res[0]._id,
-                username: res[0].username,
-                useremail: res[0].email,
-                useridentity: res[0].identity,
-                classNum: res[0].classNum,
-                avatar: res[0].avatar,               
-                token
+        if(res2.length == 0){
+         res[0].token = token;
+            ctx.body = {
+                code: 200,
+                msg: '登录成功',
+                data:{
+                    _id:res[0]._id,
+                    username: res[0].username,
+                    useremail: res[0].email,
+                    useridentity: res[0].identity,
+                    classNum: res[0].classNum,
+                    avatar: res[0].avatar,               
+                    token
+                }
+            }
+        }else{
+         res2[0].token = token;
+            ctx.body = {
+                code: 200,
+                msg: '登录成功',
+                data:{
+                    _id:res2[0]._id,
+                    username: res2[0].username,
+                    useremail: res2[0].email,
+                    useridentity: res2[0].identity,
+                    classNum: res2[0].classNum,
+                    avatar: res2[0].avatar, 
+                    token
+                }
             }
         }
+        
     },
     //注册
     async register(ctx,next) {
@@ -116,11 +136,7 @@ module.exports = {
         console.log(avatar);
         let password = sha1(password1);
         if(email == ''){
-            if(avatar == ''){
-                let res = await User.update({username:username},{$set:{password:password}});
-            }else{
-                let res = await User.update({username:username},{$set:{password:password,avatar:avatar}});
-            }
+            let res = await User.update({username:username},{$set:{password:password}});
             ctx.body = {
                 code: 200,
                 msg: '密码修改成功',
@@ -128,11 +144,19 @@ module.exports = {
             return;
         }
         if((password1 == '')&&(password2 == '')){
-            if(avatar==''){
-                 let res = await User.update({username:username},{$set:{email:email}});
-            }else{
-                let res = await User.update({username:username},{$set:{email:email,avatar:avatar}});
+           
+            let re = await User.find({email});
+            console.log(re);
+            if(re.length!=0){
+                ctx.body = {
+                    code:401,
+                    msg:'邮箱已被注册'
+                }
+                return;
             }
+
+            let res = await User.update({username:username},{$set:{email:email}});
+            
             let res2 = await User.find({username});
             ctx.body = {
                 code: 200,
@@ -149,29 +173,6 @@ module.exports = {
             return;
         }
 
-        // if((password1 == '')&&(password2 == '')&&(email == '')){
-        //     if(avatar!=''){
-        //         let res = await User.update({username:username},{$set:{avatar:avatar}});  
-        //          let res2 = await User.find({username});
-        //                              
-        //         ctx.body = {
-        //             code:200,
-        //             data:{
-        //                 _id:res2[0]._id,
-        //                 username: res2[0].username,
-        //                 useremail: res2[0].email,
-        //                 useridentity: res2[0].identity,                
-        //                 token:res2[0].token,
-        //                 avatar:res2[0].avatar
-        //             }
-        //         }  
-        //     }else{
-        //         ctx.body = {
-        //             code:401
-        //         }
-        //     }
-        //     return;
-        // }
 
        if(avatar==''){
               let res = await User.update({username:username},{$set:{email:email,password:password}});
@@ -211,4 +212,24 @@ module.exports = {
             }
         }
     },
+   async changeAvatar(ctx){
+        let username = ctx.request.body.username;
+        let avatar = ctx.request.body.avatar;
+        let res = await User.update({username},{avatar});
+        let res2 = await User.find({username});
+        if(res.length!=0){
+            ctx.body ={
+                code:200,
+                msg:'修改成功',
+                data:{
+                    username: res2[0].username,
+                    useremail: res2[0].email,
+                    useridentity: res2[0].identity,
+                    classNum: res2[0].classNum,                
+                    token:res2[0].token,
+                    avatar:res2[0].avatar
+                }
+            }
+        }
+    }
 }

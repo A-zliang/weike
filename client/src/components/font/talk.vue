@@ -90,12 +90,11 @@ export default {
               let {code, total, msg, data=[]} = res.data;
               this.pagination.total = data.total;
               this.commentList = data.list;
-              console.log(this.commentList);
+              
         },
        
          jump(num){
             this.pagination.page = Number(num);
-            
             this.getComment();
         }
       }

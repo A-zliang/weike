@@ -21,6 +21,7 @@ const userSchema = mongoose.Schema({
     password: String,
     email: String,
     identity: String,
+    token:String,
     classNum:{
         type: String,
         default: ''
@@ -107,7 +108,8 @@ const introSchema = mongoose.Schema({
 const bookSchema = mongoose.Schema({
     pic:String,
     left:[],
-    right:[]
+    right:[],
+    bookContent:[]
 })
 exports.User = mongoose.model('User',userSchema);
 exports.Comment = mongoose.model('Comment',commentSchema);

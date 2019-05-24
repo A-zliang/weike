@@ -96,5 +96,64 @@ module.exports = {
                code:401
            }
        }
+   },
+   async bookUnit(ctx){
+       //console.log(ctx.request.body);
+       let msg = ctx.request.body;
+       let res =await book.update({},{$push:{bookContent:msg}});
+       console.log(res);
+       if(res.length!=0){
+           ctx.body={
+               code:200,
+               msg:'添加成功'
+           }
+       }
+   },
+   async bookUpdate(ctx){
+       let _id = ctx.request.body._id;
+       let topic = ctx.request.body.nav;
+       let content = ctx.request.body.content;
+       let msg = {
+           topic,
+           content
+       }
+       let res = await book.find({});
+       let bookArr =  res[0].bookContent;
+        for(let i=0;i<bookArr.length;i++){
+            if(bookArr[i]._id == _id){
+                console.log(i);
+                bookArr.splice(i,1,msg);
+            }
+        }
+     let res2 = await book.update({},{$set:{bookContent:bookArr}});
+     if(res2.length!=0){
+         ctx.body = {
+             code:200,
+             msg:'修改成功'
+         }
+     }else{
+         ctx.body = {
+             code:401
+         }
+     }
+   },
+   async deleteBookUnit(ctx){
+       let _id = ctx.request.body._id;    
+       let res = await book.find({});
+       let bookArr =  res[0].bookContent;
+       for(let i=0;i<bookArr.length;i++){
+        if(bookArr[i]._id == _id){
+            bookArr.splice(i,1);
+        }
+    }
+    let res2 = await book.update({},{$set:{bookContent:bookArr}});
+    console.log(res2);
+    if(res2.nModified!=0){
+        ctx.body = {
+            code:200
+        }
+    }else{
+        code:401
+    }
    }
 }

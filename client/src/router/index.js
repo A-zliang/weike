@@ -12,12 +12,14 @@ import userinfoClass from '@/components/font/userinfoClass'
 import course from '@/components/font/course'
 import coursePlan from '@/components/font/coursePlan'
 import courseSource from '@/components/font/courseSource'
+import moreVideo from '@/components//font/moreVideo'
 import adminLogin from '@/components/admin/adminLogin'
 import main from '@/components/admin/main'
 import user from '@/components/admin/user'
 import fileAdmin from '@/components/admin/fileAdmin'
 import classAdmin from '@/components/admin/classAdmin'
 import adminWebsite from '@/components/admin/adminWebsite'
+
 import store from '../store/index'
 Vue.use(Router)
 
@@ -148,6 +150,11 @@ const router = new Router({
       path:'/courseSource',
       name:'courseSource',
       component: courseSource
+    },
+    {
+      path:'/moreVideo',
+      name:'moreVideo',
+      component:moreVideo
     }
   ]
 })

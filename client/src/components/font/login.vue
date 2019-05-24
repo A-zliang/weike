@@ -13,7 +13,7 @@
         </div>
        <el-button round  style="margin: 35px 0 0 160px" @click="login">登录</el-button>
       <router-link to="/register" class="re-link">去注册</router-link>
-      <router-link to="/main" class="admin-link">我是管理员</router-link>
+      <router-link to="/adminLogin" class="admin-link">我是管理员</router-link>
     </div>
 </template>
 
@@ -43,6 +43,8 @@ export default {
                 })
                 alert('登录成功');
                 this.$router.push('/home');
+            }else{
+                alert('登录失败');
             }
         }
     }

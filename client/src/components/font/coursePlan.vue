@@ -52,15 +52,15 @@
           <a
             href="javascript:;"
             @click="tab(index)"
-            v-for="(item,index) in items"
+            v-for="(item,index) in book"
             :class="{active : index===curId}"
-          >{{item.item}}</a>
+          >{{item.topic}}</a>
         </div>
       </el-col>
       <el-col :span="19">
         <div class="plan-right">
           <el-card class="box-card plan-card">
-            <div v-show="index===curId" v-for="(content, index) in contents">{{content.content}}</div>
+            <pre v-show="index===curId" v-for="(item, index) in book">{{item.content}}</pre>
           </el-card>
         </div>
       </el-col>
@@ -89,22 +89,11 @@ export default {
             key: "",
             value: ""
           }
-        ]
+        ],
+        
       },
-
+      book:[],
       curId: 0,
-      items: [
-        { item: "HTML" },
-        { item: "CSS" },
-        { item: "JavaScript" },
-        { item: "Vue" }
-      ],
-      contents: [
-        { content: "HTML" },
-        { content: "CSS" },
-        { content: "JavaScript" },
-        { content: "Vue" }
-      ]
     };
   },
   components: { headtop, foot },
@@ -114,11 +103,13 @@ export default {
   methods: {
     async getbookMsg() {
       let res = await this.$http.api_get_bookMsg();
+      console.log(res);
       if (res.data.code == 200) {
         this.formData._id = res.data.res[0]._id;
         this.formData.pic = res.data.res[0].pic;
         this.formData.left = res.data.res[0].left;
         this.formData.right = res.data.res[0].right;
+        this.book = res.data.res[0].bookContent;
       }
     },
     tab(index) {
@@ -206,6 +197,7 @@ export default {
 }
 .plan-card {
   height: 385px;
+  padding: 20px;
 }
 .plan-left {
   margin: 0 0 0 15px;

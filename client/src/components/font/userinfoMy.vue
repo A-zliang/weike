@@ -86,9 +86,10 @@ export default {
     rotateLeft() {
       this.$refs.cropper.rotateLeft();
     },
-    finish () {
+   finish () {
       this.$refs.cropper.getCropData((data) => {
         this.user.avatar = data;
+        this.changeAvatar();
         this.cropper_box_mark  = false;
       })
     },
@@ -98,6 +99,25 @@ export default {
          showMore2(){
             this.showMark2 = !this.showMark2;            
         },
+      async  changeAvatar(){
+         let avatarchange = {
+            username:this.$store.state.user.user_name,
+            avatar:this.user.avatar
+        }
+        let res = await this.$http.api_change_avatar(avatarchange);
+            let {code,msg,data} = res.data;
+            if(code == 200){
+                this.$store.commit('save', {
+                _id:data._id,
+                token: data.token,
+                user_name: data.username,
+                email: data.useremail,
+                identity: data.useridentity,
+                avatar:data.avatar
+            })
+            alert(msg);
+    }
+      },
         async change(){
             var regpassword = /^[a-zA-Z]\w{5,17}$/;
             var regeamil = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -140,6 +160,8 @@ export default {
                     alert(msg);
                     this.showMark1 = false;
                     this.showMark2 = false;
+                }else{
+                    alert(msg);
                 }
                 return;
             }else{                                                                 //都修改
@@ -306,6 +328,9 @@ export default {
     margin: 5px auto;
     cursor: pointer;
   }
+   .upload-img-btn:hover{
+       background-color: #ddd;
+   }
    .cropper-img-box {
     position: fixed;
     top: 0;

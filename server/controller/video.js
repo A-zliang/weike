@@ -9,6 +9,7 @@ module.exports = {
         }
         let res  = await Video.find({},null,options);
         let total = await Video.countDocuments();
+        console.log(total);
         if(res.length!=0){
             ctx.body = {
                 code:200,

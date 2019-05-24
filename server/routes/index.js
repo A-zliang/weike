@@ -24,7 +24,7 @@ router.post('/api/user/register',user.register)  //注册
 router.post('/api/emailcode',user.emailCode)   //获取验证码
 router.post('/api/changeInfo',user.infoChange)  //修改信息
 router.get('/api/get/userData',user.getUserData)   //获取用户信息
-
+router.post('/api/change/avatar',user.changeAvatar)
 //留言
 router.post('/api/publish',comment.add_leave)   //添加留言
 router.get('/api/comment',comment.getComment)   //获取留言
@@ -60,4 +60,8 @@ router.post('/api/updata/navData',adminWeb.updataNav)
 router.delete('/api/delete/nav/:id',adminWeb.deleteNav)
 router.post('/api/set/bookMsg',adminWeb.bookMsg)
 router.get('/api/get/bookMsg',adminWeb.getBookMsg)
+router.post('/api/set/bookUnit',adminWeb.bookUnit)
+router.post('/api/update/bookUnit',adminWeb.bookUpdate)
+router.post('/api/delete/bookUnit',adminWeb.deleteBookUnit)
+
 module.exports = router

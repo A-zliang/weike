@@ -32,7 +32,6 @@
 
     <el-card class="box-card" style="margin:20px">
       <div class="text item teach">
-        <h3>教学大纲</h3>
         <el-row>
           <h4>书籍展示</h4>
           <div class="avatar-box">
@@ -97,11 +96,44 @@
               >增加</el-button>
             </el-form>
           </el-col>
-          <el-col :span="6"></el-col>
         </el-row>
       </div>
       <el-button class="submit-book" type="primary" @click="submitBookMsg">提交</el-button>
     </el-card>
+    
+   
+     <el-row>
+      <el-col :span="12">
+        <div class="left">
+          <h3>章节内容</h3>
+          <el-form label-width="80px" class="form-center">
+            <el-form-item label="章节主题">
+              <el-input type="text" v-model="book.topic" maxlength="20" show-word-limit></el-input>
+            </el-form-item>
+            <el-form-item label="内容简介">
+              <el-input  :rows="8" v-model="book.content" type="textarea"></el-input>
+            </el-form-item>
+            <el-button type="primary" @click="addUnit">添加</el-button>
+          </el-form>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="right">
+          <el-table :data="formData.book" height="400" border style="width: 100%">
+            <el-table-column prop="topic" label="章节主题" width="360"></el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button size="mini" type="primary" @click="editBookUnit(scope.$index, scope.row)">编辑</el-button>
+                <el-button size="mini" type="danger" @click="deleteBookUnit(scope.$index, scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-col>
+    </el-row>
+
+
+
 
     <el-dialog title="编辑页面" :visible.sync="editPanel">
       <el-form label-width="80px">
@@ -117,6 +149,24 @@
         <el-button type="primary" @click="submit">提交</el-button>
       </div>
     </el-dialog>
+
+
+
+    <el-dialog title="编辑页面" :visible.sync="editPanel2">
+      <el-form label-width="80px">
+        <el-form-item label="主题">
+          <el-input type="text" v-model="edit.nav" maxlength="20" show-word-limit></el-input>
+        </el-form-item>
+        <el-form-item label="内容简介">
+          <el-input :rows="8" v-model="edit.content" type="textarea"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="editPanel = false">取消</el-button>
+        <el-button type="primary" @click="submitBook">提交</el-button>
+      </div>
+    </el-dialog>
+
 
     <div class="cropper-img-box" v-if="cropper_box_mark == true">
       <vueCropper
@@ -145,6 +195,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       editPanel: false,
+      editPanel2:false,
       intro: {
         nav: "",
         content: ""
@@ -168,7 +219,8 @@ export default {
             key: "",
             value: ""
           }
-        ]
+        ],
+        book:[]
       },
        cropper_box_mark: false,
              cropperData: {
@@ -178,6 +230,11 @@ export default {
             autoCropHeight: 200,
             fixedBox: true
         },
+        book:{
+            _id:'',
+            topic: "",
+            content: ""
+          }
     };
   },
   created() {
@@ -306,13 +363,47 @@ export default {
       let res = await this.$http.api_get_bookMsg();
       if(res.data.code == 200){
         this.formData._id = res.data.res[0]._id;
-        console.log(this.formData._id);
          this.formData.pic = res.data.res[0].pic;
          this.formData.left = res.data.res[0].left;
          this.formData.right = res.data.res[0].right;
-         console.log(this.formData.left);
+         this.formData.book = res.data.res[0].bookContent;
       }
-    }
+    },
+   async addUnit(){
+     this.book._id = Math.ceil(Math.random()*10000000000000);
+     let res = await this.$http.api_set_bookUnit(this.book);
+     if(res.data.code == 200){
+       alert(res.data.msg);
+       this.getbookMsg();
+       this.book.topic = '';
+       this.book.content = '';
+     }
+   },
+    async editBookUnit(index, row) {
+      console.log(row);
+      this.editPanel2 = true;
+      this.edit._id = row._id;
+      this.edit.nav = row.topic;
+      this.edit.content = row.content;
+    },
+   async submitBook(){
+      console.log(this.edit);
+      let res = await this.$http.api_updata_bookUnit(this.edit);
+      if(res.data.code == 200){
+         this.getbookMsg();
+         alert("修改成功"); 
+         this.editPanel2 = false;
+      }
+    },
+    async deleteBookUnit(index, row) {
+      let res = await this.$http.api_delete_bookUnit(row);
+      if(res.data.code == 200){
+         alert('删除成功');
+         this.getbookMsg();
+      }else{
+        alert('删除失败');
+      }
+    },
   }
 };
 </script>
