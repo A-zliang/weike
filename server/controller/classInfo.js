@@ -7,13 +7,11 @@ const fs = require('fs');
 const archiver = require('archiver');  //用于压缩文件
 const path = require("path")
 const send = require('koa-send');
-const removeAaary = require('../models/removeAaary.js');
 
 module.exports = {
     async add_class(ctx,next){
         let {classNum,classpassword,student,teacher,homework} = ctx.request.body;
         classpassword = sha1(classpassword);
-        
         // console.log(ctx.request.body);
         let res = await ClassList.find({classNum,teacher});
         // console.log(res);
@@ -37,11 +35,7 @@ module.exports = {
     },
     async join_class(ctx,next){
         let {username,classNum,classpassword} = ctx.request.body;
-        
-      
-
         classpassword = sha1(classpassword);
-       
         
         let re = await User.update({username:username},{$set:{classNum:classNum}});
         let res = await User.find({username});

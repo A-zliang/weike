@@ -83,7 +83,7 @@
           <el-col :span="13">
             <el-form label-width="80px" class="form-center">
               <el-form-item label="详细内容" v-for="(item, index) in formData.right" :key="index">
-                <el-input type="text" v-model="item.detail" style="width:400px" show-word-limit></el-input>
+                <el-input type="text" v-model="item.detail" style="width:400px" maxlength="20"  show-word-limit></el-input>
                 <a class="remove-item" v-show="formData.right.length>1" @click.prevent="removeRight(item)"><i class="el-icon-close"></i></a>
               </el-form-item>
             </el-form>
@@ -157,7 +157,7 @@ export default {
       formData: {
         _id:"", //用于标记是否为第一次提交
         pic: "",
-        left: [
+        left: [ 
           {
             title: "",
             detail: ""

@@ -180,8 +180,6 @@
             if(code == 200){
                 this.studentList = data.res[0].student;
             }
-            
-
         },
         async getClassData(){
             let class_num = this.$store.state.user.classNum

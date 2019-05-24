@@ -21,7 +21,6 @@ const userSchema = mongoose.Schema({
     password: String,
     email: String,
     identity: String,
-    token: String,
     classNum:{
         type: String,
         default: ''
@@ -72,8 +71,6 @@ const homeworkSchema = mongoose.Schema({
 const stuHomeworkSchema = mongoose.Schema({
     homework_id:String,
     username:String,
-    topic:String,
-    content:String,
     filePath:[],
     create_time:{
         type:String,

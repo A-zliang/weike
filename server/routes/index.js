@@ -57,7 +57,7 @@ router.delete('/api/delete/video/:id',adminFile.deleteVideo)//删除视频
 router.post('/api/set/nav',adminWeb.navaAdmin)
 router.get('/api/get/navData',adminWeb.getNavData)
 router.post('/api/updata/navData',adminWeb.updataNav)
-router.delete('/api/delete/nav/:id',adminWeb.deleteNav);
+router.delete('/api/delete/nav/:id',adminWeb.deleteNav)
 router.post('/api/set/bookMsg',adminWeb.bookMsg)
 router.get('/api/get/bookMsg',adminWeb.getBookMsg)
 module.exports = router

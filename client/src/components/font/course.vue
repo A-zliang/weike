@@ -48,7 +48,6 @@ export default {
     methods: {
          jump:function(ele){
             let id = "#"+ele;
-            console.log(id);
             document.querySelector(id).scrollIntoView(true);
         },
           async getNavData(){
