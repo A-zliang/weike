@@ -8,14 +8,16 @@ module.exports = {
     async adminLogin(ctx){
         let account = ctx.request.body.account;
         let password = ctx.request.body.checkPass;
+        password = sha1(password);
         let _id;
-        let re = await admin.find({account});
+        let re = await admin.find({});
+        console.log(re);
         if(re.length!=0){
              _id = re[0]._id;
         }else{
             _id = '';
         }
-        password = sha1(password);
+       
         let token = createToken(account);
         if(_id == ''){
             let a = new admin({account,password,token});
@@ -33,6 +35,8 @@ module.exports = {
             return;
         }
         let res2 = await admin.find({account,password});
+        console.log('----');
+        console.log(res2);
         if(res2.length!=0){
             ctx.body = {
                 code:200,
@@ -41,6 +45,10 @@ module.exports = {
                     account:res2[0].account,
                     token
                 }
+            }
+        }else{
+            ctx.body = {
+                code:401
             }
         }
         

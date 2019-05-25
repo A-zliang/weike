@@ -21,8 +21,8 @@
         logining: false,
         ruleForm2: {
           _id:'',
-          account: 'admin',
-          checkPass: '123456'
+          account: '',
+          checkPass: ''
         },
         rules2: {
           account: [
@@ -37,6 +37,10 @@
     },
     methods: {
     async handleSubmit2() {
+      if((this.ruleForm2.account=='')||(this.ruleForm2.checkPass=='')){
+        alert('请输入账号密码');
+        return;
+      }
           let res = await this.$http.api_admin_login(this.ruleForm2);
           console.log(res);
           let {code,data=[]} = res.data;
@@ -47,6 +51,8 @@
                      admin_user: data.account,
                 })
                 this.$router.push('/main');
+          }else{
+            alert('登录失败');
           }
       }
     }
