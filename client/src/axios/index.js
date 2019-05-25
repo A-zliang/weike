@@ -181,5 +181,8 @@ export default {
   },
   api_admin_login(data){
     return instance.post('/api/admin/login',data);
+  },
+  api_change_adminMsg(data){
+    return instance.post('/api/change/adminMsg',data);
   }
 }

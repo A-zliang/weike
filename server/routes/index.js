@@ -64,4 +64,5 @@ router.post('/api/set/bookUnit',adminWeb.bookUnit)
 router.post('/api/update/bookUnit',adminWeb.bookUpdate)
 router.post('/api/delete/bookUnit',adminWeb.deleteBookUnit)
 router.post('/api/admin/login',adminWeb.adminLogin)
+router.post('/api/change/adminMsg',adminWeb.adminMsg)
 module.exports = router

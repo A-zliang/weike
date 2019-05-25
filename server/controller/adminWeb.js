@@ -5,6 +5,21 @@ const admin = require('../db/db.js').admin;
 const createToken = require('../token/createToken.js');
 
 module.exports = {
+    async adminMsg(ctx){
+        let account = ctx.request.body.account;
+        let password = ctx.request.body.password;
+        password = sha1(password);
+        let res = await admin.update({},{account,password});
+        if(res.nModified != 0){
+            ctx.body = {
+                code:200,
+            }
+        }else{
+            ctx.body = {
+                code:401
+            }
+        }
+    },
     async adminLogin(ctx){
         let account = ctx.request.body.account;
         let password = ctx.request.body.checkPass;

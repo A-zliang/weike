@@ -56,6 +56,9 @@
                 </el-col>
             </el-row>     
 
+
+
+
             <!-- 视频播放页面 -->
             <el-dialog :title="videoInfo.topic" :visible.sync="videoPlayPanel">
                 <video-player  class="video-player-box"
@@ -100,6 +103,8 @@
                     height: "500px"
                     },
                 videoPlayPanel:false,
+                file:"",
+                fileList:[]
 			}
         },
         created() {
