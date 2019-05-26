@@ -11,6 +11,7 @@
                             <el-form-item label="内容简介">
                                 <el-input v-model="video.content"></el-input>
                             </el-form-item>
+
                             <el-upload
                                 class="upload-demo"
                                 drag
@@ -27,6 +28,8 @@
                                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                                 <div class="el-upload__tip" slot="tip">只能上传mp4/avi文件</div>
                             </el-upload>
+
+
                              <el-button type="primary" @click="uploadVideo">添加</el-button>
                         </el-form> 
                     </div>
@@ -81,6 +84,8 @@
 	export default {
 		data() {
 			return {
+                 dialogImageUrl: '',
+                dialogVisible: false,
                 videoFlag:false,
                 videoUploadPercent:0, //进度条的进度，功能尚未实现
                 video:{
@@ -111,6 +116,13 @@
             this.getVideos();
         },
 		methods: {
+             handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
 		    async uploadVideo(){
                 if(this.video.topic==''){
                     alert('请填写主题');

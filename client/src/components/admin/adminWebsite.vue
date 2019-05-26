@@ -102,13 +102,13 @@
     </el-card>
     
    
-     <el-row>
+     <el-row style="margin:30px 0">
       <el-col :span="12">
         <div class="left">
           <h3>章节内容</h3>
           <el-form label-width="80px" class="form-center">
             <el-form-item label="章节主题">
-              <el-input type="text" v-model="book.topic" maxlength="20" show-word-limit></el-input>
+              <el-input type="text" v-model="book.topic" show-word-limit></el-input>
             </el-form-item>
             <el-form-item label="内容简介">
               <el-input  :rows="8" v-model="book.content" type="textarea"></el-input>
@@ -138,7 +138,7 @@
     <el-dialog title="编辑页面" :visible.sync="editPanel">
       <el-form label-width="80px">
         <el-form-item label="主题">
-          <el-input type="text" v-model="edit.nav" maxlength="10" show-word-limit></el-input>
+          <el-input type="text" v-model="edit.nav"  show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="内容简介">
           <el-input :rows="8" v-model="edit.content" type="textarea"></el-input>
@@ -154,8 +154,8 @@
 
     <el-dialog title="编辑页面" :visible.sync="editPanel2">
       <el-form label-width="80px">
-        <el-form-item label="主题">
-          <el-input type="text" v-model="edit.nav" maxlength="20" show-word-limit></el-input>
+        <el-form-item label="章节主题">
+          <el-input type="text" v-model="edit.nav"  show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="内容简介">
           <el-input :rows="8" v-model="edit.content" type="textarea"></el-input>
@@ -380,14 +380,14 @@ export default {
      }
    },
     async editBookUnit(index, row) {
-      console.log(row);
+     
       this.editPanel2 = true;
       this.edit._id = row._id;
       this.edit.nav = row.topic;
       this.edit.content = row.content;
     },
    async submitBook(){
-      console.log(this.edit);
+     
       let res = await this.$http.api_updata_bookUnit(this.edit);
       if(res.data.code == 200){
          this.getbookMsg();
@@ -396,6 +396,7 @@ export default {
       }
     },
     async deleteBookUnit(index, row) {
+     
       let res = await this.$http.api_delete_bookUnit(row);
       if(res.data.code == 200){
          alert('删除成功');

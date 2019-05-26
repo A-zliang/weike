@@ -164,7 +164,7 @@ module.exports = {
        }
    },
    async bookUnit(ctx){
-       //console.log(ctx.request.body);
+       console.log(ctx.request.body);
        let msg = ctx.request.body;
        let res =await book.update({},{$push:{bookContent:msg}});
        console.log(res);
@@ -180,6 +180,7 @@ module.exports = {
        let topic = ctx.request.body.nav;
        let content = ctx.request.body.content;
        let msg = {
+            _id,
            topic,
            content
        }
@@ -187,7 +188,6 @@ module.exports = {
        let bookArr =  res[0].bookContent;
         for(let i=0;i<bookArr.length;i++){
             if(bookArr[i]._id == _id){
-                console.log(i);
                 bookArr.splice(i,1,msg);
             }
         }
