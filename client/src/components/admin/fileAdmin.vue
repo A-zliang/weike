@@ -17,19 +17,16 @@
                                 drag
                                 action="#"
                                 :auto-upload="false"
-                                :before-upload="beforeUploadVideo"
                                 :http-request="uploadVideo"
-                                :on-progress="uploadVideoProcess"
                                 ref="uploadVideo"
                                 accept=".mp4,avi"
                                 multiple>
                                 <i class="el-icon-upload" v-show="videoFlag == false"></i>
-                              <el-progress   v-show="videoFlag == true"   type="circle"   :percentage="videoUploadPercent"   style="margin-top:30px;"> </el-progress>
+                                <p>{{percent}}%</p>
+                              <!-- <el-progress   v-show="videoFlag == true"   type="line"   :percentage="videoUploadPercent"   style="margin-top:30px;"></el-progress> -->
                                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                                 <div class="el-upload__tip" slot="tip">只能上传mp4/avi文件</div>
                             </el-upload>
-
-
                              <el-button type="primary" @click="uploadVideo">添加</el-button>
                         </el-form> 
                     </div>
@@ -44,8 +41,6 @@
                                         <span @click="play(scope.$index, scope.row)" style="margin-left: 10px">{{ scope.row.topic }}</span>
                                     </template>
                             </el-table-column>
-
-                            <!-- <el-table-column prop="content"  label="内容简介" width="200"> </el-table-column> -->
 
                             <el-table-column prop="create_time" label="添加时间"  :formatter="dateFormat"> </el-table-column>
 
@@ -84,7 +79,7 @@
 	export default {
 		data() {
 			return {
-                 dialogImageUrl: '',
+                dialogImageUrl: '',
                 dialogVisible: false,
                 videoFlag:false,
                 videoUploadPercent:0, //进度条的进度，功能尚未实现
@@ -115,14 +110,12 @@
         created() {
             this.getVideos();
         },
+        computed: {
+            percent(){
+                return Math.ceil(this.videoUploadPercent);
+            }
+        },
 		methods: {
-             handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
 		    async uploadVideo(){
                 if(this.video.topic==''){
                     alert('请填写主题');
@@ -132,9 +125,20 @@
                     alert('请填写内容');
                     return;
                 }
+                 this.videoFlag = true;
                 const  formData = new FormData();
                 const file = this.$refs.uploadVideo.uploadFiles[0];
-                const headerConfig = { headers: { 'Content-Type': 'multipart/form-data' } };
+                const headerConfig = { headers: { 'Content-Type': 'multipart/form-data' },
+                    onUploadProgress: progressEvent => {
+                    //progressEvent.loaded:已上传文件大小
+                    //progressEvent.total:被上传文件的总大小
+                    let complete = (progressEvent.loaded / progressEvent.total ) * 100 ;
+                    this.videoUploadPercent = complete;
+                    if (this.videoUploadPercent >= 100){
+                        this.videoFlag = false;
+                    }
+              },
+                };
                 if (!file) {
                     alert('请选择文件');
                     return;
@@ -143,30 +147,16 @@
                 formData.append('topic', this.video.topic);
                 formData.append('content', this.video.content);
                 let res = await this.$http.api_upload_video(formData,headerConfig)
+                 this.videoUploadPercent = 100;  
                 if(res.data.code = 200){
-                    alert("添加成功");
-                     this.getVideos();
-                    this.videoFlag = false;
+                    this.getVideos();
                     this.video.topic = '';
                     this.video.content = '';
+                     alert("添加成功");
+                     this.videoUploadPercent = 0;  
                     this.$refs.uploadVideo.clearFiles();
                 }else{
                     alert("添加失败");
-                }
-            },
-            uploadVideoProcess(event, file, fileList){
-                this.videoFlag = true;
-                this.videoUploadPercent =  100;
-            },
-            beforeUploadVideo(file) {
-                const isLt10M = file.size / 1024 / 1024  < 10;
-                if (['video/mp4', 'video/ogg', 'video/flv','video/avi','video/wmv','video/rmvb'].indexOf(file.type) == -1) {
-                    this.$message.error('请上传正确的视频格式');
-                    return false;
-                }
-                if (!isLt1000M) {
-                    this.$message.error('上传视频大小不能超过1000MB哦!');
-                    return false;
                 }
             },
             async getVideos(){
@@ -223,10 +213,8 @@
         console.log('the player is readied', player)
         // you can use it to do something...
       }
-
 		}
 	}
-
 </script>
 <style scoped>
     .container .left{

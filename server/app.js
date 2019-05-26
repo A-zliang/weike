@@ -15,7 +15,7 @@ app.use(koaBody({
 
   formidable: {
 
-    maxFileSize: 2000*1024*1024 // 设置上传文件大小最大限制，默认2M
+    maxFileSize: 200000*1024*1024 
 
   }
 }));

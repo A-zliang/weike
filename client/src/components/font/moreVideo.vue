@@ -125,7 +125,7 @@ export default {
   color: red;
 }
 .page{
-    width: 100px;
+  width: 1263px;
     background-color: #fff;
     margin:  10px auto; 
     border-radius: 5px;
