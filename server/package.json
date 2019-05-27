@@ -11,6 +11,8 @@
   "dependencies": {
     "archiver": "^3.0.0",
     "debug": "^2.6.3",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
     "jsonwebtoken": "^8.4.0",
     "koa": "^2.2.0",
     "koa-body": "^4.1.0",

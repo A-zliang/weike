@@ -1,5 +1,9 @@
-const Video = require('../db/db.js').Video;
-const Vcomment = require('../db/db.js').Vcomment;
+const Video = require('../db/db.js').Video
+const Vcomment = require('../db/db.js').Vcomment
+const ffmpeg = require('ffmpeg')
+const path = require('path')
+// const ffmpeg = require('fluent-ffmpeg');
+const FFMPEGOperation = require('../models/videodeal.js')
 module.exports = {
     async getVideoMsg(ctx){
         let {size = 1,page = 1} = ctx.query;
@@ -43,7 +47,6 @@ module.exports = {
    },
    async getVideoComment(ctx){
        let videoId = ctx.query.id;
-       console.log(videoId);
        let res = await Vcomment.find({videoId:videoId});
        console.log(res);
        if(res.length!=0){

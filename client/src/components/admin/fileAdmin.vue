@@ -11,7 +11,6 @@
                             <el-form-item label="内容简介">
                                 <el-input v-model="video.content"></el-input>
                             </el-form-item>
-
                             <el-upload
                                 class="upload-demo"
                                 drag
@@ -22,8 +21,7 @@
                                 accept=".mp4,avi"
                                 multiple>
                                 <i class="el-icon-upload" v-show="videoFlag == false"></i>
-                                <p>{{percent}}%</p>
-                              <!-- <el-progress   v-show="videoFlag == true"   type="line"   :percentage="videoUploadPercent"   style="margin-top:30px;"></el-progress> -->
+                                <p v-show="videoFlag == true"  >{{percent}}%</p>
                                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                                 <div class="el-upload__tip" slot="tip">只能上传mp4/avi文件</div>
                             </el-upload>
@@ -53,6 +51,9 @@
                     </div>
                 </el-col>
             </el-row>     
+
+
+           
 
 
 
