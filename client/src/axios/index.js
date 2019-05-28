@@ -184,5 +184,14 @@ export default {
   },
   api_change_adminMsg(data){
     return instance.post('/api/change/adminMsg',data);
+  },
+  api_upload_file(data1,data2){
+    return instance.post('/api/upload/file',data1,data2);
+  },
+  api_get_files(){
+    return instance.get('/api/get/files');
+  },
+  api_delete_homework(data){
+    return instance.delete(`/api/delete/homework/${data}`)
   }
 }

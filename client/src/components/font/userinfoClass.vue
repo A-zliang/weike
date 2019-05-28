@@ -74,6 +74,7 @@
                         <div slot="header" class="clearfix">
                             <span>{{homeworkList[homeworkList.length-index-1].topic}}</span>
                          <el-button type="text"  style="float: right; padding: 3px 0" v-show="user_identity=='学生'" @click=sendValue(homeworkList[homeworkList.length-index-1]._id)>提交作业</el-button>
+                         <el-button type="text"  style="float: right; padding: 3px 0" v-show="user_identity=='教师'" @click=deleteHomework(homeworkList[homeworkList.length-index-1]._id)>删除作业</el-button>
                         </div>
                         <div class="text item">
                             <p>{{homeworkList[homeworkList.length-index-1].content}}</p>
@@ -231,7 +232,7 @@
             }
             const formData = new FormData();
             const file = this.$refs.upload.uploadFiles;
-            console.log(file);
+            
             const headerConfig = { headers: { 'Content-Type': 'multipart/form-data' } };
             if (!file) {
                 alert('请选择文件');
@@ -316,6 +317,7 @@
             formData.append('user_identity', this.$store.state.user.identity);
             let res =await this.$http.api_send_stuHomework(formData,headerConfig);
             alert(res.data.msg);
+            this.$refs.sendHomework.clearFiles();
             this.getHomeWorkList();
        },
        async getstuList(){
@@ -348,7 +350,7 @@
            }
            return arr3;
        },
-       async getStudentFile(id){ 
+       async getStudentFile(id){
         console.log(id);
         await window.open(`/api/get/stuFile?id=${id}`,'_self');
        },
@@ -357,6 +359,19 @@
                 let res = await this.$http.api_delete_classStu(row);
                 if(res.data.code==200){
                     alert('删除成功');
+                }else{
+                    alert('删除失败');
+                }
+           }
+       },
+       async deleteHomework(data){
+           console.log(data);
+           if(confirm('确定删除该次作业')){
+                let res = await this.$http.api_delete_homework(data);
+                console.log(res);
+                if(res.data.code==200){
+                    alert('删除成功');
+                    this.getHomeWorkList();
                 }else{
                     alert('删除失败');
                 }

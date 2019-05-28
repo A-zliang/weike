@@ -117,6 +117,15 @@ const bookSchema = mongoose.Schema({
     right:[],
     bookContent:[]
 })
+const fileSchema = mongoose.Schema({
+    username:String,
+    topic:String,
+    filePath:String,
+    create_time:{
+        type:String,
+        default:Date.now
+    }
+})
 exports.User = mongoose.model('User',userSchema);
 exports.Comment = mongoose.model('Comment',commentSchema);
 exports.ClassList = mongoose.model('ClassList',classSchema);
@@ -127,5 +136,6 @@ exports.Vcomment = mongoose.model('Vcomment',VcommentSchema);
 exports.intro = mongoose.model('intro',introSchema);
 exports.book = mongoose.model('book',bookSchema);
 exports.admin = mongoose.model('admin',adminSchema);
+exports.file = mongoose.model('file',fileSchema);
 
 

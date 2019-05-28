@@ -5,6 +5,7 @@ const User = require('../db/db.js').User;
 const sha1 = require('sha1');
 const fs = require('fs');
 const archiver = require('archiver');  //用于压缩文件
+const File =  require('../db/db.js').file;
 const path = require("path")
 const send = require('koa-send');
 
@@ -193,7 +194,6 @@ module.exports = {
     async sendHomework(ctx){      //提交作业
         let homework_id = ctx.request.body.id;
         let res = await HomeWork.find({_id:homework_id});
-
         let topic = res[0].topic;
         let content = res[0].content;
         let classNum = ctx.request.body.classNum;
@@ -202,7 +202,6 @@ module.exports = {
         let length = ctx.request.body.length;
         let file =[];
         let filePath =[];
-
         if(length==1){                             //单个文件
             file = ctx.request.files.file;
             let reader = fs.createReadStream(file.path); // 创建读入流
@@ -210,7 +209,7 @@ module.exports = {
             filePath[0] = path.join(__dirname, `../public/upload_stu/`) + `${res[0].topic}--${username}.${ext}`;
             const upStream = fs.createWriteStream(filePath[0]); // 创建可写流
             reader.pipe(upStream); // 可读流通过管道写入可写流
-        } else{
+        }else{
             filePath[0] = path.join(__dirname, `../public/upload_stu/`) + `${res[0].topic}--${username}`+'.zip'; 
             var output = fs.createWriteStream(filePath[0]); //创建一最终打包文件的输出流
             var zipArchiver = archiver('zip');  //生成archiver对象，打包类型为zip
@@ -223,10 +222,11 @@ module.exports = {
             zipArchiver.finalize();
         }
         let res4 = await StuHomework.find({homework_id,username});
-        if(res4.length != 0){  //重新提交，覆盖
+        if(res4.length != 0){  //有提交记录，重新提交，覆盖。然后将所有文件压缩
         let res5 = await StuHomework.update({homework_id,username},{$set:{filePath:filePath[0]}});
         /*将所有学生文件压缩到一个压缩包*/
         res = await StuHomework.find({homework_id});
+        console.log(res);
         //压缩
         let zipPath = path.join(__dirname, `../public/test.zip`);
         //创建一最终打包文件的输出流
@@ -314,11 +314,7 @@ module.exports = {
         
         let p = student.indexOf(_obj);
         student.splice(p,1);
-
-        
         let res2 = await ClassList.update({classNum:classNum},{$set:{student:student}});
-       
-    
         if(res.length!=0){
             let res3 = await User.update({_id},{$set:{classNum:setNull}});
             ctx.body = {
@@ -330,5 +326,40 @@ module.exports = {
             }
         }
     },
+    async deleteHomework(ctx){
+        let _id = ctx.params.data;
+         let res = await HomeWork.find({_id});
+            let index =  res[0].filePath[0].lastIndexOf(".");
+            let ext = res[0].filePath[0].substring(index+1);
+            let filePath = path.join(__dirname,'../public/upload/')+`${res[0].topic}.${ext}`;
+            fs.unlink(filePath,(err)=>{
+                if(err){
+                   console.log(err);
+                   return false;
+                }
+                console.log('删除成功');
+           });
+           let filePath2;
+            let res3 = await StuHomework.find({homework_id:_id});
+            for(let i=0; i<res3.length; i++){
+                let index2 =  res3[i].filePath[0].lastIndexOf(".");
+                let ext2 = res3[i].filePath[0].substring(index+1);
+                filePath2 = path.join(__dirname, `../public/upload_stu/`) + `${ext2}`;
+                fs.unlink(filePath2,(err)=>{
+                    if(err){
+                       console.log(err);
+                       return false;
+                    }
+                    console.log('删除成功');
+               });
+            }
+            let res2 = await HomeWork.findOneAndDelete({_id});
 
+            ctx.body = {
+                code:200,
+                msg:'删除成功'
+            }
+        },
+
+     
 }

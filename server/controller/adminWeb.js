@@ -2,8 +2,12 @@ const intro = require('../db/db.js').intro;
 const book = require('../db/db.js').book;
 const sha1 = require('sha1');
 const admin = require('../db/db.js').admin;
+const File = require('../db/db.js').file;
 const createToken = require('../token/createToken.js');
-
+const fs = require('fs');
+const archiver = require('archiver');  //用于压缩文件
+const path = require("path")
+const send = require('koa-send');
 module.exports = {
     async adminMsg(ctx){
         let account = ctx.request.body.account;
@@ -221,5 +225,56 @@ module.exports = {
     }else{
         code:401
     }
-   }
+   },
+  async uploadFiles(ctx){
+      console.log(ctx.request.body);
+      let length = ctx.request.body.length;
+      let username = ctx.request.body.username;
+      let topic = ctx.request.body.topic;
+      let file =[];
+      let filePath;
+
+      if(length==1){
+        file = ctx.request.files.file;
+        let reader = fs.createReadStream(file.path); // 创建读入流
+        let ext = file.name.split('.').pop(); // 获取上传文件扩展名
+        filePath = path.join(__dirname, '../public/upload_files/') + `${topic}.${ext}`;
+        const upStream = fs.createWriteStream(filePath); // 创建可写流
+        reader.pipe(upStream); // 可读流通过管道写入可写流
+    } else{
+        filePath = path.join(__dirname, '../public/upload_files/') + `${topic}`+'.zip'; 
+        var output = fs.createWriteStream(filePath); //创建一最终打包文件的输出流
+        var zipArchiver = archiver('zip');  //生成archiver对象，打包类型为zip
+        zipArchiver.pipe(output);       //将打包对象与输出流关联
+
+        for(let i=0; i<length; i++){
+            file[i] = ctx.request.files.file[i]; // 获取上传文件
+            zipArchiver.append(fs.createReadStream(file[i].path), {'name': file[i].name});
+         }
+        zipArchiver.finalize();
+    }
+    let f = new File({topic,username,filePath});
+    let res = await f.save();
+    if(res.length!=0){
+        ctx.body = {
+            code:200,
+            msg:'添加成功'
+        }
+    }else{
+        ctx.body = {
+            code:401,
+            msg:'添加失败'
+        }
+    }
+  },
+  async getFiles(ctx){
+      let res = await File.find({});
+      console.log(res);
+      if(res.length!=0){
+          ctx.body = {
+              code:200,
+              res
+          }
+      }
+  }
 }

@@ -46,6 +46,7 @@ router.get('/api/get/videoMsg',video.getVideoMsg)  //拿到视频的信息
 router.post('/api/publish/videoComment',video.videoComment) //发表视频评论
 router.get('/api/get/videoComment',video.getVideoComment)  //获取视频的评论
 router.post(`/api/delete/classStu/`,classInfo.deleteClassStu)//教师删除学生
+router.delete('/api/delete/homework/:data',classInfo.deleteHomework)
 //管理员
 router.get(`/api/get/alluser`,adminUser.getAllUser)  //获取所有用户
 router.delete('/api/delete/user/:id',adminUser.deleteUser)//删除用户
@@ -65,4 +66,6 @@ router.post('/api/update/bookUnit',adminWeb.bookUpdate)
 router.post('/api/delete/bookUnit',adminWeb.deleteBookUnit)
 router.post('/api/admin/login',adminWeb.adminLogin)
 router.post('/api/change/adminMsg',adminWeb.adminMsg)
+router.post('/api/upload/file',adminWeb.uploadFiles)
+router.get('/api/get/files',adminWeb.getFiles)
 module.exports = router

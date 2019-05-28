@@ -52,11 +52,61 @@
                 </el-col>
             </el-row>     
 
+            <el-row>
+                <el-col :span="12">
+                    <div class="left">
+                        <h3 class="file-h3">文件上传</h3>
+                         <el-form label-width="80px" class="form-center">
+                            <el-form-item label="相关内容">
+                                <el-input v-model="file.topic"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <el-upload
+                            class="upload-demo"
+                            drag
+                            action="#"
+                            :auto-upload="false"
+                            :http-request="uploadFile"
+                            ref="uploadFile"
+                            multiple>
+                            <i class="el-icon-upload"></i>
+                            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        </el-upload>
+                        <el-button type="primary" class="btn" @click="uploadFile">添加</el-button>
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <div class="right">
+                        <h3>文件总数：{{fileList.length}}</h3>
+                       <el-table  :data="fileList"  height="400" border  style="width: 100%" :default-sort = "{prop: 'create_time', order: 'descending'}" >
+                            <el-table-column  label="主题" width="200">
+                                   <template slot-scope="scope">
+                                       <i v-if="'pptx'==scope.row.ext" class="iconfont el-icon-dzppt"></i>
+                                       <i v-else-if="'xlsx'==scope.row.ext||'xls'==scope.row.ext" class="iconfont el-icon-dzExcel"></i>
+                                       <i  v-else-if="'doc'==scope.row.ext||'docx'==scope.row.ext" class="iconfont el-icon-dzword"></i>
+                                       <i  v-else-if="'zip'==scope.row.ext" class="iconfont el-icon-dzzip"></i>
+                                       <i  v-else-if="'pdf'==scope.row.ext" class="iconfont el-icon-dzpdf"></i>
+                                       <i  v-else-if="'txt'==scope.row.ext" class="iconfont el-icon-dztxt"></i>
+                                       <i  v-else-if="'jpg'==scope.row.ext||'png'==scope.row.ext" class="iconfont el-icon-dztupian"></i>
+                                       <i  v-else class="iconfont el-icon-dzweizhiwenjian"></i>
+                                      <span style="margin-left: 10px" @click="downloadFiles(scope.row)">{{ scope.row.topic }}</span>
+                                    </template>
+                            </el-table-column>
+                            <el-table-column prop="username" label="上传者"> </el-table-column>
 
+                            <el-table-column prop="create_time" label="添加时间"  :formatter="dateFormat"> </el-table-column>
+
+                             <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button size="mini" @click="deleteVideo(scope.$index, scope.row)" type="danger">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                </el-col>
+            </el-row>   
+  
            
-
-
-
 
             <!-- 视频播放页面 -->
             <el-dialog :title="videoInfo.topic" :visible.sync="videoPlayPanel">
@@ -80,10 +130,8 @@
 	export default {
 		data() {
 			return {
-                dialogImageUrl: '',
-                dialogVisible: false,
                 videoFlag:false,
-                videoUploadPercent:0, //进度条的进度，功能尚未实现
+                videoUploadPercent:0, 
                 video:{
                     topic:'',
                     content:''
@@ -104,12 +152,16 @@
                     height: "500px"
                     },
                 videoPlayPanel:false,
-                file:"",
+                file:{
+                    topic:'',
+                    username:""
+                },
                 fileList:[]
 			}
         },
         created() {
             this.getVideos();
+            this.getFiles();
         },
         computed: {
             percent(){
@@ -117,6 +169,71 @@
             }
         },
 		methods: {
+            async uploadFile(){
+                if(this.file.topic==''){
+                    alert('请填写主题');
+                    return;
+                }
+                this.file.username = 'admin';
+                const  formData = new FormData();
+                const file = this.$refs.uploadFile.uploadFiles;
+                const headerConfig = { headers: { 'Content-Type': 'multipart/form-data' }};
+                 if (!file) {
+                    alert('请选择文件');
+                    return;
+                }
+                for(let i=0; i<file.length; i++){
+                     formData.append('file', file[i].raw);
+                }
+                console.log(file);
+                formData.append('length', file.length);
+                formData.append('topic', this.file.topic);
+                formData.append('username', this.file.username);
+                let res = await this.$http.api_upload_file(formData,headerConfig);
+                console.log(res);
+                if(res.data.code == 200){
+                    this.getFiles();
+                    alert(res.data.msg);
+                    this.$refs.uploadFile.clearFiles();
+                    this.file.topic = '';
+                }
+            },
+            async getFiles(){
+                this.fileList =[];
+                let res = await this.$http.api_get_files();
+                let temp = {
+                    create_time:'',
+                    ext:'',
+                    filePath:'',
+                    username:'',
+                    _id:''
+                }
+                if(res.data.code == 200){
+                    for(let i=0; i<res.data.res.length; i++){
+                            temp.create_time = res.data.res[i].create_time;
+                            temp.filePath = res.data.res[i].filePath;
+                            temp.topic = res.data.res[i].topic;
+                            temp.username = res.data.res[i].username;
+                            temp._id = res.data.res[i]._id;
+                            let index = res.data.res[i].filePath.lastIndexOf(".");
+                            temp.ext = res.data.res[i].filePath.substring(index+1);
+                            this.fileList.push(temp);
+                             temp = {
+                                create_time:'',
+                                filePath:'',
+                                username:'',
+                                _id:'',
+                                ext:''
+                            }
+                    }
+                }
+            },
+           async downloadFiles(data){
+               console.log(data);   
+               let _id = data._id;
+               window.open(`/api/download/file?id=${_id}`,'_self');
+            }
+            ,
 		    async uploadVideo(){
                 if(this.video.topic==''){
                     alert('请填写主题');
@@ -229,7 +346,6 @@
     }
     .container .left h3{
         font-weight: normal;
-        text-align: center;
         padding: 15px 0;
         font-size: 20px;
         color: #888;
@@ -272,5 +388,14 @@
     .container .right i:hover{
          color: red;
          cursor: pointer;
+     }
+     .file-h3{
+        width: 100px;
+        margin-left: 100px;
+     }
+     .btn{
+         width: 100px;
+         left: 50%;
+         margin: 50px -100px;
      }
 </style>
