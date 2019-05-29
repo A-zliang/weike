@@ -1,6 +1,9 @@
 const Video = require('../db/db.js').Video;
+const File = require('../db/db.js').file;
 const fs = require('fs');
 const path = require('path');
+const send = require('koa-send');
+
 module.exports = {
    async uploadVideo(ctx){
     let  topic = ctx.request.body.topic;
@@ -65,5 +68,39 @@ module.exports = {
             msg:'删除失败'
          }
       }
-   }
+   },
+   async downloadFiles(ctx){
+      let _id = ctx.query.id;
+      console.log('----');
+      let res = await File.find({_id:_id});
+      //console.log(res);
+      let index =  res[0].filePath.lastIndexOf(".");
+      let ext = res[0].filePath.substring(index+1);
+      let path = `/public/upload_files/${res[0].topic}.${ext}`;
+      await send(ctx,path);
+   },
+  async deleteFile(ctx){
+     let _id = ctx.params.data;
+     let res = await File.find({_id});
+     let index =  res[0].filePath.lastIndexOf(".");
+     let ext = res[0].filePath.substring(index+1);
+     let filePath = path.join(__dirname,`../public/upload_files/${res[0].topic}.${ext}`);
+      fs.unlink(filePath,(err)=>{
+         if(err){
+            console.log(err);
+            return false;
+         }
+         console.log('删除成功');
+      });
+      let res2 = await File.findOneAndDelete({_id});
+      if(res2.length!=0){
+         ctx.body = {
+            code:200,
+         }
+      }else{
+         ctx.body = {
+            code:401
+         }
+      }
+  }
 }

@@ -269,7 +269,7 @@ module.exports = {
   },
   async getFiles(ctx){
       let res = await File.find({});
-      console.log(res);
+   
       if(res.length!=0){
           ctx.body = {
               code:200,

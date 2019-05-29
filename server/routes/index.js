@@ -68,4 +68,6 @@ router.post('/api/admin/login',adminWeb.adminLogin)
 router.post('/api/change/adminMsg',adminWeb.adminMsg)
 router.post('/api/upload/file',adminWeb.uploadFiles)
 router.get('/api/get/files',adminWeb.getFiles)
+router.get('/api/getfile',adminFile.downloadFiles)
+router.delete('/api/delete/file/:data',adminFile.deleteFile)
 module.exports = router

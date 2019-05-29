@@ -5,7 +5,6 @@ const User = require('../db/db.js').User;
 const sha1 = require('sha1');
 const fs = require('fs');
 const archiver = require('archiver');  //用于压缩文件
-const File =  require('../db/db.js').file;
 const path = require("path")
 const send = require('koa-send');
 
@@ -246,8 +245,6 @@ module.exports = {
         }
         //打包
         zipArchiver.finalize();
-
-
             if(res5.n != 0){
                 ctx.body = {
                     code:200,

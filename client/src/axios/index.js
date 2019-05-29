@@ -3,7 +3,7 @@ import store from '../store';
 import router from '../router';
 
 // 全局设置
-axios.defaults.timeout = 60000; // 时间超时设置10s
+axios.defaults.timeout = 60000; // 时间超时设置60s
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 // 创建一个axios的实列
@@ -193,5 +193,8 @@ export default {
   },
   api_delete_homework(data){
     return instance.delete(`/api/delete/homework/${data}`)
+  },
+  api_delete_file(data){
+    return instance.delete(`/api/delete/file/${data}`);
   }
 }

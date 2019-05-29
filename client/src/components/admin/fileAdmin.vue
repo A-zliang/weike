@@ -98,7 +98,7 @@
 
                              <el-table-column label="操作">
                                 <template slot-scope="scope">
-                                    <el-button size="mini" @click="deleteVideo(scope.$index, scope.row)" type="danger">删除</el-button>
+                                    <el-button size="mini" @click="deleteFile(scope.$index, scope.row)" type="danger">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -231,9 +231,17 @@
            async downloadFiles(data){
                console.log(data);   
                let _id = data._id;
-               window.open(`/api/download/file?id=${_id}`,'_self');
-            }
-            ,
+               window.open(`/api/getfile?id=${_id}`,'_self'); 
+            },
+           async deleteFile(index, row){
+               let res = await this.$http.api_delete_file(row._id);
+               if(res.data.code == 200){
+                   this.getFiles();
+                   alert('删除成功');
+               }else{
+                   alert('删除失败');
+               }
+           },
 		    async uploadVideo(){
                 if(this.video.topic==''){
                     alert('请填写主题');
