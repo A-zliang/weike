@@ -206,7 +206,7 @@ module.exports = {
             file = ctx.request.files.file;
             let reader = fs.createReadStream(file.path); // 创建读入流
             let ext = file.name.split('.').pop(); // 获取上传文件扩展名
-            filePath[0] = path.join(__dirname, `../public/upload_stu/`) + `${res[0].topic}--${username}.${ext}`;
+            filePath[0] = path.join(__dirname, `../public/upload_stu/`)+`${res[0].topic}--${username}.${ext}`;
             const upStream = fs.createWriteStream(filePath[0]); // 创建可写流
             reader.pipe(upStream); // 可读流通过管道写入可写流
         }else{
@@ -224,11 +224,13 @@ module.exports = {
         let res4 = await StuHomework.find({homework_id,username});
         if(res4.length != 0){  //有提交记录，重新提交，覆盖。然后将所有文件压缩
         let res5 = await StuHomework.update({homework_id,username},{$set:{filePath:filePath[0]}});
+
+
         /*将所有学生文件压缩到一个压缩包*/
         res = await StuHomework.find({homework_id});
         console.log(res);
         //压缩
-        let zipPath = path.join(__dirname, `../public/test.zip`);
+        let zipPath = path.join(__dirname, `../public/${homework_id}.zip`);
         //创建一最终打包文件的输出流
         let output = fs.createWriteStream(zipPath);
         //生成archiver对象，打包类型为zip
@@ -244,6 +246,8 @@ module.exports = {
         }
         //打包
         zipArchiver.finalize();
+
+
             if(res5.n != 0){
                 ctx.body = {
                     code:200,
@@ -256,10 +260,10 @@ module.exports = {
             if(res2.length!=0){
               let res3 = await HomeWork.update({_id:homework_id},{$push:{"submit":username}});
 
-             /*将所有学生文件压缩到一个压缩包*/
+              /*将所有学生文件压缩到一个压缩包*/
                res = await StuHomework.find({homework_id});
                //压缩
-               let zipPath = path.join(__dirname, `../public/test.zip`);
+               let zipPath = path.join(__dirname, `../public/${homework_id}.zip`);
                //创建一最终打包文件的输出流
                let output = fs.createWriteStream(zipPath);
                //生成archiver对象，打包类型为zip
@@ -275,6 +279,9 @@ module.exports = {
                }
                //打包
                zipArchiver.finalize();
+
+
+
                ctx.body = {
                     code:200,
                     msg:'提交成功'
@@ -301,7 +308,8 @@ module.exports = {
         }
     },
     async getStuFile(ctx){
-        let path = '/public/test.zip';
+        let homework_id = ctx.query.id;
+        let path = `/public/${homework_id}.zip`;
         await send(ctx,path);
     },
     async deleteClassStu(ctx){
@@ -337,24 +345,34 @@ module.exports = {
                    console.log(err);
                    return false;
                 }
-                console.log('删除成功');
+                console.log('教师文件删除成功');
            });
            let filePath2;
             let res3 = await StuHomework.find({homework_id:_id});
             for(let i=0; i<res3.length; i++){
                 let index2 =  res3[i].filePath[0].lastIndexOf(".");
-                let ext2 = res3[i].filePath[0].substring(index+1);
-                filePath2 = path.join(__dirname, `../public/upload_stu/`) + `${ext2}`;
+                let ext2 = res3[i].filePath[0].substring(index2+1);
+                filePath2 = path.join(__dirname, `../public/upload_stu/${res[0].topic}--${res3[i].username}`)+`.${ext2}`;
+                console.log('------');
+                console.log(filePath2);
                 fs.unlink(filePath2,(err)=>{
                     if(err){
                        console.log(err);
                        return false;
                     }
-                    console.log('删除成功');
+                    console.log('学生作业文件删除成功');
                });
             }
+            let res4 = await StuHomework.remove({homework_id:_id});
             let res2 = await HomeWork.findOneAndDelete({_id});
-
+            let filePath3 = path.join(__dirname,`../public/${_id}.zip`);
+            fs.unlink(filePath3,(err)=>{
+                if(err){
+                   console.log(err);
+                   return false;
+                }
+                console.log('学生作业文件删除成功');
+           });
             ctx.body = {
                 code:200,
                 msg:'删除成功'
