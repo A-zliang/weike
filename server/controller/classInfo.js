@@ -188,6 +188,7 @@ module.exports = {
         let ext = res[0].filePath[0].substring(index+1);
 
         let path = `/public/upload/${res[0].topic}.${ext}`;
+        ctx.attachment(path);
         await send(ctx,path);
     },
     async sendHomework(ctx){      //提交作业

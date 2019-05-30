@@ -2,8 +2,8 @@ const Video = require('../db/db.js').Video
 const Vcomment = require('../db/db.js').Vcomment
 const ffmpeg = require('ffmpeg')
 const path = require('path')
-// const ffmpeg = require('fluent-ffmpeg');
-const FFMPEGOperation = require('../models/videodeal.js')
+const send = require('koa-send');
+
 module.exports = {
     async getVideoMsg(ctx){
         let {size = 1,page = 1} = ctx.query;
@@ -60,5 +60,12 @@ module.exports = {
                msg:'查询失败'
            }
        }
+   },
+   async downloadVideos(ctx){
+       let filePath = ctx.query.id;
+       console.log(filePath);
+       let path = `/public/${filePath}`;
+       ctx.attachment(path);
+       await send(ctx,path);
    }
 }

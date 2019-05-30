@@ -181,9 +181,6 @@ export default {
                     this.file.topic = '';
                 }
             },
-           async sendFile(){
-
-            },
     async getVideoMsg() {
       let res = await this.$http.api_get_VideoMsg(this.pagination);
       if (res.data.code == 200) {
