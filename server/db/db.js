@@ -131,6 +131,9 @@ const VideosWatchMsgSchema = mongoose.Schema({
     topic:String,
     time:String,
     filePath:String,
+    content:String,
+    videoId:String,
+    flag:String,
 })
 
 exports.User = mongoose.model('User',userSchema);

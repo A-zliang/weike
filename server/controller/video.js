@@ -72,12 +72,14 @@ module.exports = {
        let username = ctx.request.body.username;
        let topic = ctx.request.body.topic;
        let time = ctx.request.body.time;
+       time = Math.floor(time);
        let filePath = ctx.request.body.filePath;
-
+       let content = ctx.request.body.content;
+       let videoId = ctx.request.body._id;
+       let flag = true;
        let re = await VideosWatchMsg.find({username,topic});
-       console.log(re);
        if(re.length!=0){
-           let resp = await VideosWatchMsg.updateOne({username,topic},{username,topic,time,filePath});
+           let resp = await VideosWatchMsg.updateOne({username,topic},{username,topic,time,filePath,content,videoId,flag});
            console.log(resp);
            if(resp.nModified==1){
                ctx.body ={
@@ -91,9 +93,8 @@ module.exports = {
            return;
        }
 
-       let vWatch = new VideosWatchMsg({username,topic,time,filePath});
+       let vWatch = new VideosWatchMsg({username,topic,time,filePath,content,videoId,flag});
        let res = await vWatch.save();
-       console.log(res);
        if(res.length!=0){
            ctx.body = {
                code:200,
@@ -103,7 +104,40 @@ module.exports = {
                code:401
            }
        }
-
-
+   },
+   async getWatchMsg(ctx){
+       let username = ctx.query.username;
+       let res = await VideosWatchMsg.find({username,flag:true});
+       if(res.length!=0){
+           ctx.body = {
+               code:200,
+               res
+           }
+       }else{
+           ctx.body = {
+               code:401
+           }
+       }
+   },
+   async setFlag(ctx){
+       console.log(ctx.request.body);
+       let username = ctx.request.body.username;
+       let topic = ctx.request.body.topic;
+       let videoId = ctx.request.body.videoId;
+       let flag = false;
+       let res = await VideosWatchMsg.updateOne({username,topic,videoId},{flag:flag});
+       console.log(res);
+       if(res.nModified == 1){
+           ctx.body = {
+               code:200
+           }
+       }else{
+           ctx.body = {
+               code:401
+           }
+       }
    }
+
+
+
 }

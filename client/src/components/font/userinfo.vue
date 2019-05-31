@@ -5,7 +5,7 @@
                       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
                             <el-menu router>
                                <el-menu-item index="/userinfo/userinfoMy"><i class="iconfont el-icon-dzgerenzhongxinxuanzhong"></i>我的信息</el-menu-item>
-                               <!-- <el-menu-item index="/userinfo/userinfoMsg"><i class="iconfont el-icon-dzShape"></i>消息</el-menu-item> -->
+                               <el-menu-item index="/userinfo/userinfoMsg"><i class="iconfont el-icon-dzguankanjilu"></i>观看记录</el-menu-item>
                                <el-menu-item index="/userinfo/userinfoClass"><i class="iconfont el-icon-dzbanji"></i>我的班级</el-menu-item>
                                <el-menu-item @click="logout"><i class="iconfont el-icon-dztuichudenglu"></i>退出登录</el-menu-item>
                             </el-menu>

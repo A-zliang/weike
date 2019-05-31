@@ -199,5 +199,11 @@ export default {
   },
   api_send_watchMsg(data){
     return instance.post('/api/send/watchMsg',data);
+  },
+  api_get_watchMsg(data){
+    return instance.get(`/api/get/watchMsg?username=${data}`);
+  },
+  api_set_flag(data){
+    return instance.post('/api/set/flag',data);
   }
 }

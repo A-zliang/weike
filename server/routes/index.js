@@ -49,6 +49,8 @@ router.post(`/api/delete/classStu/`,classInfo.deleteClassStu)//教师删除学�
 router.delete('/api/delete/homework/:data',classInfo.deleteHomework)  //教师删除作业
 router.post('/api/send/watchMsg',video.watchMsg)  //用户观看视频情况
 router.get('/api/download/videos',video.downloadVideos)
+router.get(`/api/get/watchMsg`,video.getWatchMsg)
+router.post('/api/set/flag',video.setFlag)
 //管理员
 router.get(`/api/get/alluser`,adminUser.getAllUser)  //获取所有用户
 router.delete('/api/delete/user/:id',adminUser.deleteUser)//删除用户

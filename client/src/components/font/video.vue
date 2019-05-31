@@ -64,7 +64,10 @@
 export default {
       data() {
       return {
+        _id:'',
+        content:'',
         topic:'',
+        filePath:'',
         textarea: '',
         commentList:[],
         playerOptions: {
@@ -111,6 +114,9 @@ export default {
       getSrc(){
          this.playerOptions.sources[0].src ='http://localhost:3000/'+this.$route.query.filePath;
          this.topic = this.$route.query.topic;
+         this.content = this.$route.query.content;
+         this._id = this.$route.query._id;
+         this.filePath = this.$route.query.filePath;
       },
       async pushComment(){
         let id = this.$route.query._id;
@@ -192,7 +198,7 @@ export default {
          //console.log('player current update state', playerCurrentState)
       },
       onPlayerTimeupdate(player) {
-         console.log('player Timeupdate!', player.currentTime())
+        // console.log('player Timeupdate!', player.currentTime())
       },
       onPlayerEnded(player) {
          console.log('player ended!', player);
@@ -205,7 +211,9 @@ export default {
           username:this.$store.state.user.user_name,
           topic: this.topic,
           time: this.player.currentTime(),
-          filePath:this.playerOptions.sources[0].src
+          filePath:this.filePath,
+          _id:this._id,
+          content:this.content
         }
         console.log(record);
         let res = await this.$http.api_send_watchMsg(record)
