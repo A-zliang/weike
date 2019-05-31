@@ -196,5 +196,8 @@ export default {
   },
   api_delete_file(data){
     return instance.delete(`/api/delete/file/${data}`);
+  },
+  api_send_watchMsg(data){
+    return instance.post('/api/send/watchMsg',data);
   }
 }

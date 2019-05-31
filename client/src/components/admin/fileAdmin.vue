@@ -109,8 +109,8 @@
            
 
             <!-- 视频播放页面 -->
-            <el-dialog :title="videoInfo.topic" :visible.sync="videoPlayPanel">
-                <video-player  class="video-player-box"
+            <el-dialog :title="videoInfo.topic" :visible.sync="videoPlayPanel" @close='closeDialog'>
+                <video-player  class="video-player-box video-player vjs-custom-skin "
                             width="1000px"
                             height="500px"
                             ref="videoPlayer"
@@ -169,6 +169,10 @@
             }
         },
 		methods: {
+            //关闭弹框的事件
+            closeDialog(){
+                this.$refs.videoPlayer.player.pause();
+            },
             async uploadFile(){
                 if(this.file.topic==''){
                     alert('请填写主题');

@@ -38,7 +38,7 @@
 
         <div class="tip more-file">
           <span class="left">课程文件</span>
-          <router-link to="/moreVideo">
+          <router-link to="/courseSource">
             <span class="right">
               更多
               <i class="iconfont el-icon-dzgengduo"></i>
@@ -46,7 +46,6 @@
           </router-link>
           <hr>
         </div>
-
         <div class="file">
           <el-table :data="fileList" style="width: 100%">
             <el-table-column label="文件名" width="200">

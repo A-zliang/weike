@@ -126,6 +126,13 @@ const fileSchema = mongoose.Schema({
         default:Date.now
     }
 })
+const VideosWatchMsgSchema = mongoose.Schema({
+    username:String,
+    topic:String,
+    time:String,
+    filePath:String,
+})
+
 exports.User = mongoose.model('User',userSchema);
 exports.Comment = mongoose.model('Comment',commentSchema);
 exports.ClassList = mongoose.model('ClassList',classSchema);
@@ -137,5 +144,6 @@ exports.intro = mongoose.model('intro',introSchema);
 exports.book = mongoose.model('book',bookSchema);
 exports.admin = mongoose.model('admin',adminSchema);
 exports.file = mongoose.model('file',fileSchema);
+exports.VideosWatchMsg = mongoose.model('VideosWatchMsg',VideosWatchMsgSchema);
 
 

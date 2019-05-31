@@ -47,6 +47,7 @@ router.post('/api/publish/videoComment',video.videoComment) //发表视频评论
 router.get('/api/get/videoComment',video.getVideoComment)  //获取视频的评论
 router.post(`/api/delete/classStu/`,classInfo.deleteClassStu)//教师删除学生
 router.delete('/api/delete/homework/:data',classInfo.deleteHomework)  //教师删除作业
+router.post('/api/send/watchMsg',video.watchMsg)  //用户观看视频情况
 router.get('/api/download/videos',video.downloadVideos)
 //管理员
 router.get(`/api/get/alluser`,adminUser.getAllUser)  //获取所有用户

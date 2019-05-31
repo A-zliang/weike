@@ -17,14 +17,13 @@
         <el-col :span="20">
           <div class="grid-content bg-purple">
 
-            <el-col :span="12">
               <div class="grid-content bg-purple-dark">
                 <h3 class="file-title">视频文件：{{videosList.length}}</h3>
                 <el-table :data="videosList" style="width: 100%">
                <el-table-column label="主题">
                     <template slot-scope="scope">
-                        <i  class="iconfont el-icon-dzshipin"></i> 
-                        <span style="margin-left: 10px">{{scope.row.content}}</span>
+                        <i  @click="downloadVideos(scope.row)" class="iconfont el-icon-dzshipin"></i> 
+                        <span  @click="downloadVideos(scope.row)" style="margin-left: 10px">{{scope.row.content}}</span>
                     </template>
                </el-table-column>
                
@@ -36,9 +35,7 @@
                 </el-table-column>
                 </el-table>
               </div>
-            </el-col>
-
-            <el-col :span="12">
+          
               <div class="grid-content bg-purple-light">
                 <h3 class="file-title">文档文件：{{fileList.length}}</h3>
         <el-table :data="fileList" style="width: 100%" :default-sort = "{prop: 'create_time', order: 'descending'}">
@@ -76,7 +73,7 @@
             </el-table-column>
           </el-table>
               </div>
-            </el-col>
+          
 
           </div>
         </el-col>

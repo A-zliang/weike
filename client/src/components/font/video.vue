@@ -7,16 +7,17 @@
                     <h3>{{this.$route.query.topic}}</h3>
                     <p>{{this.$route.query.content}}</p>
                   </div>
-                   <video-player  class="video-player-box"
+                   <video-player  class="video-player-box video-player vjs-custom-skin "
                             width="1000px"
                             height="500px"
                             ref="videoPlayer"
                             :options="playerOptions"
                             :playsinline="true"
-                            customEventName="customstatechangedeventname"
-                            @play="onPlayerPlay($event)"
+                            
+                            @play="($event)"
                             @pause="onPlayerPause($event)"
                             @ended="onPlayerEnded($event)"
+                            @timeupdate="onPlayerTimeupdate($event)"
                             @waiting="onPlayerWaiting($event)"
                             @statechanged="playerStateChanged($event)"
                             @ready="playerReadied">
@@ -32,7 +33,6 @@
                         <div class="item" v-for="(item, index) in commentList" :key="index">
                             <span>{{item.username}}</span> <span>{{item.create_time}}</span>
                             <p>{{item.content}}</p>
-                            
                         </div>
                         <p v-show="commentList.length == 0" style="text-align:center">暂时没有人评论</p>
                     </div>
@@ -55,6 +55,7 @@
                 <el-button class="btn" @click="pushComment" type="primary">发表</el-button>
               </el-col>
            </el-row>
+
     </div>
 </template>
 
@@ -63,12 +64,16 @@
 export default {
       data() {
       return {
+        topic:'',
         textarea: '',
         commentList:[],
         playerOptions: {
           // videojs options
           // muted: true,
-          language: 'en',
+          language: 'zh-CN',
+          autoplay: true, //如果true,浏览器准备好时开始回放
+          controls:true,
+          preload:'auto', // <video>加载元素后立即加载视频
           fluid: true,
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
@@ -77,7 +82,13 @@ export default {
           }],
           poster: "/static/images/author.jpg",
           width: "1200px",
-          height: "622px"
+          height: "622px",
+          controlBar: {
+            timeDivider: true,
+            durationDisplay: true,
+            remainingTimeDisplay: false,
+            fullscreenToggle: true  //全屏按钮
+          }
         }
       }
     },
@@ -88,14 +99,18 @@ export default {
     mounted() {
       console.log('this is current player instance object', this.player)
     },
+    beforeDestroy() {
+      this.watchTime();
+  },
     computed: {
       player() {
         return this.$refs.videoPlayer.player
-      }
+      },
     },
     methods: {
       getSrc(){
          this.playerOptions.sources[0].src ='http://localhost:3000/'+this.$route.query.filePath;
+         this.topic = this.$route.query.topic;
       },
       async pushComment(){
         let id = this.$route.query._id;
@@ -165,41 +180,38 @@ export default {
            let create_time = `${year}-${month}-${date} ${hour}:${minu}:${sec}`;
            return create_time;
         },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      // listen event
+      //播放
       onPlayerPlay(player) {
-        // console.log('player play!', player)
+         console.log('player play!', player)
       },
+      //暂停
       onPlayerPause(player) {
-        // console.log('player pause!', player)
+         console.log('player pause!', player)
       },
-      // ...player event
-
-      // or listen state event
       playerStateChanged(playerCurrentState) {
-        // console.log('player current update state', playerCurrentState)
+         //console.log('player current update state', playerCurrentState)
       },
-
-      // player is ready
+      onPlayerTimeupdate(player) {
+         console.log('player Timeupdate!', player.currentTime())
+      },
+      onPlayerEnded(player) {
+         console.log('player ended!', player);
+      },
       playerReadied(player) {
         console.log('the player is readied', player)
-        // you can use it to do something...
-        // player.[methods]
+      },
+    async  watchTime(){
+        let record = {
+          username:this.$store.state.user.user_name,
+          topic: this.topic,
+          time: this.player.currentTime(),
+          filePath:this.playerOptions.sources[0].src
+        }
+        console.log(record);
+        let res = await this.$http.api_send_watchMsg(record)
+        if(res.data.code==200){
+          console.log('退出观看');
+        }
       }
     }
 }
