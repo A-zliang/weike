@@ -7,9 +7,7 @@
                     <h3>{{this.$route.query.topic}}</h3>
                     <p>{{this.$route.query.content}}</p>
                   </div>
-                   <video-player  class="video-player-box video-player vjs-custom-skin "
-                            width="1000px"
-                            height="500px"
+                   <video-player @keyup.enter.native="stop"  @keyup.space.native="stop"   @keyup.38.native.stop="up"  @keyup.40.native="down" @keyup.39.native="go" @keyup.37.native="back" class="video-player-box video-player vjs-custom-skin "
                             ref="videoPlayer"
                             :options="playerOptions"
                             :playsinline="true" 
@@ -23,6 +21,11 @@
                     </video-player>
                 </div>
               </el-col>
+
+
+
+
+
               <el-col :span="5">
                 <div class="grid-content bg-purple-light">
                     <div class="top">
@@ -36,24 +39,26 @@
                         <p v-show="commentList.length == 0" style="text-align:center">暂时没有人评论</p>
                     </div>
                 </div>
+                  <el-row class="bottom">
+                    <el-col :span="19"> 
+                        <el-input
+                          class="textarea"
+                          type="textarea"
+                          placeholder="发表见解"
+                          v-model="textarea"
+                          :rows="2"
+                          maxlength="30"
+                          show-word-limit>
+                        </el-input>
+                    </el-col>
+                    <el-col :span="5">
+                      <el-button class="btn" @click="pushComment" type="primary">发表</el-button>
+                    </el-col>
+                </el-row>
+
+
               </el-col>
             </el-row>
-           <el-row class="bottom">
-              <el-col :span="19"> 
-                  <el-input
-                    class="textarea"
-                    type="textarea"
-                    placeholder="发表见解"
-                    v-model="textarea"
-                    :rows="2"
-                    maxlength="30"
-                    show-word-limit>
-                  </el-input>
-              </el-col>
-              <el-col :span="5">
-                <el-button class="btn" @click="pushComment" type="primary">发表</el-button>
-              </el-col>
-           </el-row>
     </div>
 </template>
 
@@ -62,6 +67,7 @@
 export default {
       data() {
       return {
+        flag:false,
         _id:'',
         content:'',
         topic:'',
@@ -70,9 +76,8 @@ export default {
         commentList:[],
         playerOptions: {
           // videojs options
-          // muted: true,
           language: 'zh-CN',
-          autoplay: true, //如果true,浏览器准备好时开始回放
+          autoplay: true,
           controls:true,
           preload:'auto', // <video>加载元素后立即加载视频
           fluid: true,
@@ -82,15 +87,20 @@ export default {
             src: ""
           }],
           poster: "/static/images/author.jpg",
-          width: "1200px",
+          width: "1250px",
           height: "622px",
+          controlBar: {
+            timeDivider: true,
+            durationDisplay: true,
+            remainingTimeDisplay: false,
+            fullscreenToggle: true  //全屏按钮
+          }
         }
       }
     },
     created() {
      this.getSrc();
      this.getVideoComment();
-    // this.videoPlay();
     },
     mounted() {
       console.log('this is current player instance object', this.player)
@@ -178,16 +188,38 @@ export default {
            let create_time = `${year}-${month}-${date} ${hour}:${minu}:${sec}`;
            return create_time;
         },
+      stop(){
+          if(this.flag){
+            this.$refs.videoPlayer.player.pause();
+            this.flag = false;
+          }else{
+            this.$refs.videoPlayer.player.play();
+            this.flag = true;
+          }
+      },
+      go(){
+        this.player.currentTime(this.player.currentTime()+10);        
+      },
+      back(){
+        this.player.currentTime(this.player.currentTime()-10);        
+      },
+      up(){
+         this.player.volume(this.player.volume()+0.2);
+      },
+      down(){
+            this.player.volume(this.player.volume()-0.2);
+      },
       //播放
       onPlayerPlay(player) {
          console.log('player play!', player)
+         console.log(player.muted);
       },
       //暂停
       onPlayerPause(player) {
          console.log('player pause!', player)
       },
       playerStateChanged(playerCurrentState) {
-         //console.log('player current update state', playerCurrentState)
+         console.log('player current update state', playerCurrentState)
       },
       onPlayerTimeupdate(player) {
         // console.log('player Timeupdate!', player.currentTime())
@@ -226,15 +258,9 @@ export default {
     border-radius: 4px;
     min-height: 36px;
   }
-   .bg-purple {
-    background: #d3dce6;
-  }
-   .bg-purple-light {
-    background: #e5e9f2;
-  }
   .title{
     width: 100%;
-    height: 60px;
+    height: 72px;
     background-color: #ccc;
   }
   .title h3{
@@ -248,7 +274,7 @@ export default {
   }
   .top{
     width: 100%;
-    height: 60px;
+    height: 68px;
     line-height: 60px;
     text-align: center;
     background-color: #ddd;
