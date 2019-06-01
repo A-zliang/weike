@@ -1,10 +1,10 @@
 const Video = require('../db/db.js').Video
 const Vcomment = require('../db/db.js').Vcomment
 const VideosWatchMsg = require('../db/db.js').VideosWatchMsg
-const ffmpeg = require('ffmpeg')
+const fs = require('fs');
 const path = require('path')
 const send = require('koa-send');
-
+const extname = path.extname;
 module.exports = {
     async getVideoMsg(ctx){
         let {size = 1,page = 1} = ctx.query;
@@ -136,8 +136,50 @@ module.exports = {
                code:401
            }
        }
-   }
+   },
 
+
+   async play(ctx){
+        let _id = ctx.query.id;
+        let res = await Video.find({_id});
+        let  file = res[0].filePath;
+        let fpath = path.join(__dirname,`../public/${file}`);
+        console.log(fpath);
+        let stat = fs.statSync(fpath);
+        let fileSize = stat.size;
+        console.log(fileSize);
+        let range  = ctx.headers.range;
+        console.log(ctx.headers);
+        console.log(range);
+
+        if (range) {
+            let parts = range.replace(/bytes=/, "").split("-");
+            let start = parseInt(parts[0], 10);
+            let end = parts[1] ? parseInt(parts[1], 10) : start + 999999;
+    
+            // end 在最后取值为 fileSize - 1 
+            end = end > fileSize - 1 ? fileSize - 1 : end;
+    
+            let chunksize = (end - start) + 1;
+            let file = fs.createReadStream(fpath, { start, end });
+            ctx.status=206;
+            ctx.set({
+                'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+                'Accept-Ranges': 'bytes',
+                'Content-Length': chunksize,
+                'Content-Type': 'video/mp4',
+            })
+            ctx.body = file;
+        } else {
+            ctx.status=200;
+            ctx.set({
+                'Content-Length': fileSize,
+                'Content-Type': 'video/mp4',
+            })
+            ctx.body = fs.createReadStream(fpath);
+        }
+   },
+ 
 
 
 }

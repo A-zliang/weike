@@ -12,8 +12,7 @@
                             height="500px"
                             ref="videoPlayer"
                             :options="playerOptions"
-                            :playsinline="true"
-                            
+                            :playsinline="true" 
                             @play="($event)"
                             @pause="onPlayerPause($event)"
                             @ended="onPlayerEnded($event)"
@@ -55,7 +54,6 @@
                 <el-button class="btn" @click="pushComment" type="primary">发表</el-button>
               </el-col>
            </el-row>
-
     </div>
 </template>
 
@@ -86,18 +84,13 @@ export default {
           poster: "/static/images/author.jpg",
           width: "1200px",
           height: "622px",
-          controlBar: {
-            timeDivider: true,
-            durationDisplay: true,
-            remainingTimeDisplay: false,
-            fullscreenToggle: true  //全屏按钮
-          }
         }
       }
     },
     created() {
      this.getSrc();
      this.getVideoComment();
+    // this.videoPlay();
     },
     mounted() {
       console.log('this is current player instance object', this.player)
@@ -112,12 +105,18 @@ export default {
     },
     methods: {
       getSrc(){
-         this.playerOptions.sources[0].src ='http://localhost:3000/'+this.$route.query.filePath;
+         this.playerOptions.sources[0].src =`http://localhost:3000/video/play?id=${this.$route.query._id}`;
          this.topic = this.$route.query.topic;
          this.content = this.$route.query.content;
          this._id = this.$route.query._id;
          this.filePath = this.$route.query.filePath;
       },
+      // async videoPlay(){
+      //     let id = this.$route.query._id;
+      //     let res = await this.$http.api_video_play(id);
+      //    // console.log(res);
+      //     this.playerOptions.sources[0].src = res.data;
+      // },
       async pushComment(){
         let id = this.$route.query._id;
         let username = this.$store.state.user.user_name;;
@@ -140,7 +139,6 @@ export default {
         let id = this.$route.query._id;
         let res = await this.$http.api_get_videoComment(id);
         if(res.data.code == 200){
-          console.log(res.data.res);
           let comment = {
             username:'',
             content:'',

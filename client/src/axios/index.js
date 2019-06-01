@@ -205,5 +205,8 @@ export default {
   },
   api_set_flag(data){
     return instance.post('/api/set/flag',data);
+  },
+  api_video_play(data){
+    return instance.get(`/api/video/play?id=${data}`);
   }
 }
