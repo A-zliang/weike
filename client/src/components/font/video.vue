@@ -111,12 +111,6 @@ export default {
          this._id = this.$route.query._id;
          this.filePath = this.$route.query.filePath;
       },
-      // async videoPlay(){
-      //     let id = this.$route.query._id;
-      //     let res = await this.$http.api_video_play(id);
-      //    // console.log(res);
-      //     this.playerOptions.sources[0].src = res.data;
-      // },
       async pushComment(){
         let id = this.$route.query._id;
         let username = this.$store.state.user.user_name;;
@@ -202,6 +196,7 @@ export default {
          console.log('player ended!', player);
       },
       playerReadied(player) {
+        player.currentTime(this.$route.query.time);
         console.log('the player is readied', player)
       },
     async  watchTime(){

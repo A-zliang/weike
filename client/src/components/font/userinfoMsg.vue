@@ -68,6 +68,7 @@ export default {
                 time:''
             }
         }
+        console.log(this.watchList);
       }
     },
     async deleteRecord(row){

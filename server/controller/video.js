@@ -143,14 +143,12 @@ module.exports = {
         let _id = ctx.query.id;
         let res = await Video.find({_id});
         let  file = res[0].filePath;
+
+        
         let fpath = path.join(__dirname,`../public/${file}`);
-        console.log(fpath);
         let stat = fs.statSync(fpath);
         let fileSize = stat.size;
-        console.log(fileSize);
         let range  = ctx.headers.range;
-        console.log(ctx.headers);
-        console.log(range);
 
         if (range) {
             let parts = range.replace(/bytes=/, "").split("-");
