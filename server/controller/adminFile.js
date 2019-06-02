@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const send = require('koa-send');
 const FFMPEGOperation = require('../models/videodeal');
+const Vcomment = require('../db/db.js').Vcomment
+const deletePic = require('../models/deletePic');
 module.exports = {
    async uploadVideo(ctx){
     let  topic = ctx.request.body.topic;
@@ -61,6 +63,10 @@ module.exports = {
    async deleteVideo(ctx){
       let _id = ctx.params.id;
       let res = await Video.find({_id});
+      let fpath = path.join(__dirname,`../public/videoPic/${res[0].topic}`);
+      console.log(fpath);
+      deletePic(fpath);
+      let re = await Vcomment.deleteMany({videoId:_id});
       let index =  res[0].filePath.lastIndexOf(".");
       let ext = res[0].filePath.substring(index+1);
       let res2 = await Video.deleteOne({_id});
