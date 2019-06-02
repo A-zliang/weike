@@ -6,6 +6,8 @@ const send = require('koa-send');
 const FFMPEGOperation = require('../models/videodeal');
 const Vcomment = require('../db/db.js').Vcomment
 const deletePic = require('../models/deletePic');
+const ffmpeg = require('ffmpeg')
+
 module.exports = {
    async uploadVideo(ctx){
     let  topic = ctx.request.body.topic;
@@ -13,21 +15,36 @@ module.exports = {
     let  file = ctx.request.files.file;
     let reader = fs.createReadStream(file.path);
     let ext = file.name.split('.').pop();
-    let filePath = path.join(__dirname, '../public/videos/') + `${topic}.${ext}`;
-    const upStream = fs.createWriteStream(filePath);
-    reader.pipe(upStream);
-
     fs.mkdir(path.join(__dirname,`../public/videoPic/${topic}`),(err) => {
       if(err){
         console.log(err);
         return;
       }
     });
+    let filePath = path.join(__dirname, '../public/videos/') + `${topic}.${ext}`;
+    const upStream = fs.createWriteStream(filePath);
+    reader.pipe(upStream);
 
-    const FFMPEGOperationObj = new FFMPEGOperation();
+  //  const FFMPEGOperationObj = new FFMPEGOperation();
     const outputPath = path.join(__dirname,`../public/videoPic/${topic}`);
     //获取缩略图
-    await FFMPEGOperationObj.getVideoSceenshots(filePath,outputPath,1,35,topic);
+  //  await FFMPEGOperationObj.getVideoSceenshots(filePath,outputPath,1,35,topic);
+
+
+
+    const process = new ffmpeg(filePath);
+     process.then(function (video) {
+        video.fnExtractFrameToJPG(outputPath, {
+            frame_rate : 1,
+            number : 35,
+            file_name : topic,
+        }, function (error, files) {
+            if (!error)
+                console.log('Frames: ' + files)
+        })
+    }, function (err) {
+        console.log('Error: ' + err)
+    })
   
    
     filePath = filePath.substring(31);

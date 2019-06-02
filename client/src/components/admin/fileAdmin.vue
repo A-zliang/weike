@@ -15,7 +15,7 @@
                                 class="upload-demo"
                                 drag
                                 action="#"
-                                :auto-upload="false"
+                                :auto-upload="true"
                                 :http-request="uploadVideo"
                                 ref="uploadVideo"
                                 accept=".mp4,avi"
@@ -264,6 +264,7 @@
                     //progressEvent.total:被上传文件的总大小
                     let complete = (progressEvent.loaded / progressEvent.total ) * 100 ;
                     this.videoUploadPercent = complete;
+                    //console.log(this.videoUploadPercent);
                     if (this.videoUploadPercent >= 100){
                         this.videoFlag = false;
                     }

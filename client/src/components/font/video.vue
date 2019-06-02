@@ -7,7 +7,7 @@
                     <h3>{{this.$route.query.topic}}</h3>
                     <p>{{this.$route.query.content}}</p>
                   </div>
-                   <video-player @keyup.enter.native="stop"  @keyup.space.native="stop"   @keyup.38.native.stop="up"  @keyup.40.native="down" @keyup.39.native="go" @keyup.37.native="back" class="video-player-box video-player vjs-custom-skin "
+                   <video-player @keyup.enter.native="stop" v-focus  @keyup.space.native="stop"   @keyup.38.native.stop="up"  @keyup.40.native="down" @keyup.39.native="go" @keyup.37.native="back" class="video-player-box video-player vjs-custom-skin "
                             ref="videoPlayer"
                             :options="playerOptions"
                             :playsinline="true" 
