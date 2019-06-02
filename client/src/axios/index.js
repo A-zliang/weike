@@ -211,5 +211,8 @@ export default {
   },
   api_get_playNum(id){
     return instance.get(`/api/get/playNum?id=${id}`);
+  },
+  api_get_stuTime(data){
+    return instance.get(`/api/get/stuTime?username=${data}`);
   }
 }

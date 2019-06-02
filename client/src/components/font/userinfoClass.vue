@@ -39,6 +39,11 @@
                         <el-table-column label="班级" width="140" prop="classNum"></el-table-column>
                         <el-table-column label="姓名" width="120" prop="username"></el-table-column>
                         <el-table-column label="邮箱" prop="email"></el-table-column>
+                        <el-table-column v-if="user_identity=='教师'" label="视频观看时长">
+                            <template slot-scope="scope">
+                               <span>{{scope.row.stuTime}} min</span>
+                            </template>
+                        </el-table-column>
 
                         <el-table-column  width="120">
                             <template slot-scope="scope">
@@ -179,7 +184,29 @@
             let res = await this.$http.api_get_student(classNumber);
             let {code,data={}} = res.data;
             if(code == 200){
-                this.studentList = data.res[0].student;
+                //this.studentList = data.res[0].student;
+                //console.log(this.studentList);
+                let stuInfo = {
+                    classNum:'',
+                    username:'',
+                    email:'',
+                    stuTime:'',
+                }
+                for(let i=0; i<data.res[0].student.length; i++){
+                    stuInfo.classNum = data.res[0].student[i].classNum;
+                    stuInfo.username = data.res[0].student[i].username;
+                    stuInfo.email = data.res[0].student[i].email;
+                    let res2 = await this.$http.api_get_stuTime(data.res[0].student[i].username);
+                    stuInfo.stuTime = (res2.data.stuTime/60).toFixed(2);
+                    this.studentList.push(stuInfo);
+                        stuInfo = {
+                        classNum:'',
+                        username:'',
+                        email:'',
+                        stuTime:'',
+                    }
+                }
+                console.log(this.studentList);
             }
         },
         async getClassData(){

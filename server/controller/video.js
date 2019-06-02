@@ -185,6 +185,18 @@ module.exports = {
            code:200,
            playnum
        }
+   },
+   async studyTime(ctx){
+       let username = ctx.query.username;
+       let res = await VideosWatchMsg.find({username});
+       let stuTime=0;
+       for(let i=0; i<res.length; i++){
+           stuTime = stuTime+Number(res[i].time);
+       }
+       ctx.body = {
+           code:200,
+           stuTime
+       }
    }
 
 
