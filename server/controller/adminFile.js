@@ -3,7 +3,7 @@ const File = require('../db/db.js').file;
 const fs = require('fs');
 const path = require('path');
 const send = require('koa-send');
-
+const FFMPEGOperation = require('../models/videodeal');
 module.exports = {
    async uploadVideo(ctx){
     let  topic = ctx.request.body.topic;
@@ -14,8 +14,23 @@ module.exports = {
     let filePath = path.join(__dirname, '../public/videos/') + `${topic}.${ext}`;
     const upStream = fs.createWriteStream(filePath);
     reader.pipe(upStream);
+
+    fs.mkdir(path.join(__dirname,`../public/videoPic/${topic}`),(err) => {
+      if(err){
+        console.log(err);
+        return;
+      }
+    });
+
+    const FFMPEGOperationObj = new FFMPEGOperation();
+    const outputPath = path.join(__dirname,`../public/videoPic/${topic}`);
+    //获取缩略图
+    await FFMPEGOperationObj.getVideoSceenshots(filePath,outputPath,1,35,topic);
+  
+   
     filePath = filePath.substring(31);
-    let  video = new Video({topic,content,filePath});
+    let pic =  `http://localhost:3000/videoPic/${topic}/${topic}_34.jpg`;
+    let  video = new Video({topic,content,filePath,pic});
     let res = await video.save();
     if(res.length!=0){
        ctx.body = {

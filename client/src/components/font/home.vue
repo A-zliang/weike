@@ -19,7 +19,7 @@
               <el-card :body-style="{ padding: '0px'}">
                 <router-link :to="{path: '/video', query:o}">
                   <img
-                    src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=9fc39de227f5e0feee188e07645b5395/a8014c086e061d9565a7a5c371f40ad163d9ca6c.jpg"
+                    :src="o.pic"
                     class="image"
                   >
                 </router-link>

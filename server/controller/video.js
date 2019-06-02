@@ -1,10 +1,10 @@
 const Video = require('../db/db.js').Video
 const Vcomment = require('../db/db.js').Vcomment
 const VideosWatchMsg = require('../db/db.js').VideosWatchMsg
-const fs = require('fs');
+const fs = require('fs')
 const path = require('path')
-const send = require('koa-send');
-const extname = path.extname;
+const send = require('koa-send')
+
 module.exports = {
     async getVideoMsg(ctx){
         let {size = 1,page = 1} = ctx.query;
@@ -137,8 +137,6 @@ module.exports = {
            }
        }
    },
-
-
    async play(ctx){
         let _id = ctx.query.id;
         let res = await Video.find({_id});

@@ -351,8 +351,8 @@ module.exports = {
                 let index2 =  res3[i].filePath[0].lastIndexOf(".");
                 let ext2 = res3[i].filePath[0].substring(index2+1);
                 filePath2 = path.join(__dirname, `../public/upload_stu/${res[0].topic}--${res3[i].username}`)+`.${ext2}`;
-                console.log('------');
-                console.log(filePath2);
+                // console.log('------');
+                // console.log(filePath2);
                 fs.unlink(filePath2,(err)=>{
                     if(err){
                        console.log(err);
