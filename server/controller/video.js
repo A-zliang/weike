@@ -175,7 +175,17 @@ module.exports = {
             ctx.body = fs.createReadStream(fpath);
         }
    },
- 
+   async playNum(ctx){
+       let videoId = ctx.query.id;
+       console.log(videoId);
+       let res = await VideosWatchMsg.find({videoId});
+       let playnum = res.length;
+       console.log(res.length);
+       ctx.body = {
+           code:200,
+           playnum
+       }
+   }
 
 
 }

@@ -52,6 +52,7 @@ router.get('/api/download/videos',video.downloadVideos)
 router.get(`/api/get/watchMsg`,video.getWatchMsg)
 router.post('/api/set/flag',video.setFlag)
 router.get('/video/play',video.play)
+router.get('/api/get/playNum',video.playNum)
 //管理员
 router.get(`/api/get/alluser`,adminUser.getAllUser)  //获取所有用户
 router.delete('/api/delete/user/:id',adminUser.deleteUser)//删除用户

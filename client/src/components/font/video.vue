@@ -5,7 +5,7 @@
                 <div class="grid-content bg-purple">
                   <div class="title">
                     <h3>{{this.$route.query.topic}}</h3>
-                    <p>{{this.$route.query.content}}</p>
+                    <span class="content">{{this.$route.query.content}}</span> <span class="num"><i class="iconfont el-icon-dzbofangliang"></i> {{playnum}}</span>
                   </div>
                    <video-player @keyup.enter.native="stop" v-focus  @keyup.space.native="stop"   @keyup.38.native.stop="up"  @keyup.40.native="down" @keyup.39.native="go" @keyup.37.native="back" class="video-player-box video-player vjs-custom-skin "
                             ref="videoPlayer"
@@ -67,6 +67,7 @@
 export default {
       data() {
       return {
+        playnum:0,
         flag:false,
         _id:'',
         content:'',
@@ -101,6 +102,7 @@ export default {
     created() {
      this.getSrc();
      this.getVideoComment();
+     this.getPlayNum();
     },
     mounted() {
       console.log('this is current player instance object', this.player)
@@ -162,6 +164,13 @@ export default {
           }
         }
       },
+      async getPlayNum(){
+         let id = this.$route.query._id;
+         let res = await this.$http.api_get_playNum(id);
+        //  console.log(res.data.playnum);
+         this.playnum = res.data.playnum;
+      }
+      ,
        timeFormat(data){    //对编辑页面中的时间格式化
             let now = new Date(Number(data));
             var year = now.getFullYear();
@@ -219,7 +228,7 @@ export default {
          console.log('player pause!', player)
       },
       playerStateChanged(playerCurrentState) {
-         console.log('player current update state', playerCurrentState)
+        // console.log('player current update state', playerCurrentState)
       },
       onPlayerTimeupdate(player) {
         // console.log('player Timeupdate!', player.currentTime())
@@ -268,9 +277,19 @@ export default {
     font-size: 18px;
     padding: 5px 0 0 15px;
   }
-  .title p{
+  .title .content{
+    display: block;
+    width: 600px;
+    height: 20px;
     font-size: 14px;
-    padding: 5px 0 0 15px;
+    padding: 15px 0 0 15px;
+    float: left;
+  }
+  .title .num{
+    float: right;
+    margin: 10px 30px 0 0;
+    padding: 10px;
+    color: #666;
   }
   .top{
     width: 100%;

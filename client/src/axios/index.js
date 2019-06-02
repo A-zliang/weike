@@ -208,5 +208,8 @@ export default {
   },
   api_video_play(data){
     return instance.get(`/api/video/play?id=${data}`);
+  },
+  api_get_playNum(id){
+    return instance.get(`/api/get/playNum?id=${id}`);
   }
 }
