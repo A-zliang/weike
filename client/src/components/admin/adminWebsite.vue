@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="12">
         <div class="left">
-          <h3>课程简介导航</h3>
+          <h3>课程简介</h3>
           <el-form label-width="80px" class="form-center">
             <el-form-item label="主题">
               <el-input v-model="intro.nav" type="text" maxlength="10" show-word-limit></el-input>

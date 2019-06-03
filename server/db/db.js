@@ -88,7 +88,6 @@ const stuHomeworkSchema = mongoose.Schema({
 const videoSchema = mongoose.Schema({
     topic:String,
     content:String,
-    clickNum:Number,
     pic:String,
     filePath:String,
     create_time:{

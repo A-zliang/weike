@@ -212,12 +212,11 @@
         async getClassData(){
             let class_num = this.$store.state.user.classNum
             let res = await this.$http.api_get_class(class_num);
-            let {code ,data={}} = res.data
-            if(code == 200){
-                this.backClass.classNum = data.classNum;
-                this.backClass.teacher = data.teacher;
-                this.backClass.student = data.student;
-                this.backClass.create_time = data.create_time;
+            if(res.data.code == 200){
+                this.backClass.classNum = res.data.res[0].classNum;
+                this.backClass.teacher = res.data.res[0].teacher;
+                this.backClass.student = res.data.res[0].student;
+                this.backClass.create_time = res.data.res[0].create_time;
             }
         },
        async createClass(){

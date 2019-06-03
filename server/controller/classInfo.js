@@ -124,12 +124,13 @@ module.exports = {
         if(res.length != 0){
             ctx.body={
                 code:200,
-                data:{
-                    classNum: res[0].classNum,
-                    teacher: res[0].teacher,
-                    student:res[0].student,
-                    create_time: res[0].create_time
-                }
+                // data:{
+                //     classNum: res[0].classNum,
+                //     teacher: res[0].teacher,
+                //     student:res[0].student,
+                //     create_time: res[0].create_time
+                // }
+                res
             }
         } else{
             ctx.body ={
