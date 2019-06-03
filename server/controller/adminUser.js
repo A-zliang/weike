@@ -57,8 +57,8 @@ module.exports = {
        }
    },
    async editUserInfo(ctx){
-       let _id = ctx.request.body.username;
-       let username = ctx.request.body._id;
+       let username = ctx.request.body.username;
+       let _id = ctx.request.body._id;
        let classNum = ctx.request.body.classNum;
        let email = ctx.request.body.email;
        let identity = ctx.request.body.identity;

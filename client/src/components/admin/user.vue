@@ -45,23 +45,23 @@
 
             <el-form  label-width="80px">
                 <el-form-item label="班级">
-					<el-input v-model="this.editForm.classNum"></el-input>
+					<el-input v-model="editForm.classNum"></el-input>
 				</el-form-item>
 
 				<el-form-item label="姓名">
-					<el-input  auto-complete="off" v-model="this.editForm.username"></el-input>
+					<el-input  auto-complete="off" v-model="editForm.username"></el-input>
 				</el-form-item>
 
                 <el-form-item label="邮箱">
-					<el-input  auto-complete="off" v-model="this.editForm.email"></el-input>
+					<el-input  auto-complete="off" v-model="editForm.email"></el-input>
 				</el-form-item>
 
 				 <el-form-item label="用户身份">
-					<el-input  auto-complete="off" v-model="this.editForm.identity"></el-input>
+					<el-input  auto-complete="off" v-model="editForm.identity"></el-input>
 				</el-form-item>
 
                 <el-form-item label="注册时间">
-					<el-input :disabled="true"  auto-complete="off" v-model="this.editForm.create_time"></el-input>
+					<el-input :disabled="true"  auto-complete="off" v-model="editForm.create_time"></el-input>
 				</el-form-item>
 			</el-form>
 
@@ -149,6 +149,8 @@ export default {
             console.log(res);
             if(res.data.code = 200){
                 alert('提交成功');
+                this.editFormVisible = false;
+                this.getAllUser();
             }else{
                 alert('提交失败');
             }
@@ -164,6 +166,8 @@ export default {
             this.editForm.identity = row.identity;
             let create_time = this.timeFormat(row.create_time);
             this.editForm.create_time = create_time;
+
+            console.log(this.editForm);
         },
         timeFormat(data){    //对编辑页面中的时间格式化
             let now = new Date(Number(data));

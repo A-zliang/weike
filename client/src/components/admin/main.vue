@@ -19,11 +19,11 @@
         <el-container style="min-height: 900px; border: 1px solid #eee" class="content">
             <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
                 <el-menu router>
-                    <el-menu-item index="/main/adminWebsite"><i class="el-icon-message"></i>网站管理</el-menu-item>
-                    <el-menu-item index="/main/user"><i class="el-icon-message"></i>用户管理</el-menu-item>
-                    <el-menu-item index="/main/classAdmin"><i class="el-icon-message"></i>班级管理</el-menu-item>
-                    <el-menu-item index="/main/fileAdmin"><i class="el-icon-message"></i>资源管理</el-menu-item>
-                    <el-menu-item @click="loginOut"><i class="el-icon-message"></i>退出系统</el-menu-item>
+                    <el-menu-item index="/main/adminWebsite"><i class="iconfont el-icon-dzwangzhan"></i>    网站管理</el-menu-item>
+                    <el-menu-item index="/main/user"><i class="iconfont el-icon-dzfangqiuzhiyepeiyangzhuanhuan"></i>    用户管理</el-menu-item>
+                    <el-menu-item index="/main/classAdmin"><i class="iconfont el-icon-dzbanji1"></i>    班级管理</el-menu-item>
+                    <el-menu-item index="/main/fileAdmin"><i class="iconfont el-icon-dzwenjianguanli"></i>  资源管理</el-menu-item>
+                    <el-menu-item @click="loginOut"><i class="iconfont el-icon-dztuichudenglu"></i> 退出登录</el-menu-item>
                 </el-menu>
             </el-aside>
             <el-container>
