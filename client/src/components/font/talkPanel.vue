@@ -313,9 +313,9 @@ export default {
      .showLike{
          cursor: pointer;
      } 
-     .likeHover{
+     /* .likeHover{
         color: red;
-     }
+     } */
       .showLike :hover{
          color: red;
       }

@@ -8,7 +8,7 @@
                         <h3>留下点什么吧...</h3>
                     </div>
                     <hr> 
-                    <textarea placeholder="请输入最多1000个字符" v-focus v-model="comment.content"></textarea>
+                    <textarea placeholder="请输入您的想法" v-focus v-model="comment.content"></textarea>
                    <el-button class="btn" type="primary" @click="publish">内容发表</el-button>
                   </div>
 
@@ -73,7 +73,7 @@ export default {
                 alert('内容不能为空');
                 return;
               }
-              if(this.comment.content.length >= 1000){
+              if(this.comment.content.length >= 2000){
                 alert('输入字符过长，请简要描述您的问题');
                 return;
               }
@@ -92,7 +92,6 @@ export default {
               this.commentList = data.list;
               
         },
-       
          jump(num){
             this.pagination.page = Number(num);
             this.getComment();

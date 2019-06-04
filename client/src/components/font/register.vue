@@ -133,7 +133,6 @@ export default {
             if(res.data.code == 200){
                 this.user.code = res.data.data.ecode
             }
-
             this.btn = "<p style='color:red'>重新发送</p>";
            
         },
